@@ -1,0 +1,44 @@
+[
+  {
+    "city": "Mumbai, IN",
+    "splitMapData": {
+      "width": 438,
+      "height": 689,
+      "translate": [
+        -127025.58162806717,
+        34296.61101788923
+      ],
+      "mapScale": 100000
+    },
+    "combinedMapData": {
+      "width": 438,
+      "height": 689,
+      "translate": [
+        -127025.58162806717,
+        34296.61101788923
+      ],
+      "mapScale": 100000
+    }
+  },
+  {
+    "city": "Delhi, IN",
+    "splitMapData": {
+      "width": 450,
+      "height": 350,
+      "translate": [
+        -46864.62432594641,
+        18454.815400446667
+      ],
+      "mapScale": 35000
+    },
+    "combinedMapData": {
+      "width": 450,
+      "height": 350,
+      "translate": [
+        -46864.62432594641,
+        18454.815400446667
+      ],
+      "mapScale": 35000
+    }
+  }
+]
