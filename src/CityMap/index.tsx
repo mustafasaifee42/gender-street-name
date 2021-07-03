@@ -15,7 +15,7 @@ import { MapVis, SplitMap } from '../MapVis';
 interface Props {
   darkMode: boolean;
   splitMap: boolean;
-  selectedCity: string;
+  selectedCity: string | null;
 }
 
 const BodyHeader = styled.div`

@@ -97,7 +97,7 @@
   {
     "Highway_Name": "Central Avenue New Mandala Road",
     "Named_After": "mandala",
-    "Gender": "male"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Badaruddin Tayabji Marg",
@@ -2170,9 +2170,9 @@
     "Gender": "ungendered"
   },
   {
-    "Highway_Name": "Liladhar L Shah Road; Liladhar L Shah Road; Liladhar L Shah Road; Liladhar L Shah Road; Liladhar L Shah Road; Liladhar L Shah Road; Liladhar Lakhamshi Shah Marg (Clive Road); Dr K Raishi Shah Marg",
-    "Named_After": "liladhar l liladhar l liladhar l liladhar l liladhar l liladhar l liladhar lakhamshi clive dr k raishi",
-    "Gender": "female"
+    "Highway_Name": "Liladhar L Shah Road",
+    "Named_After": "liladhar l",
+    "Gender": "male"
   },
   {
     "Highway_Name": "Nowroji Hill Road No 4",
@@ -4042,7 +4042,7 @@
   {
     "Highway_Name": "August Kranti Marg",
     "Named_After": "kranti",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Walkeswar Road",
@@ -4762,7 +4762,7 @@
   {
     "Highway_Name": "Juhu Tara Road",
     "Named_After": "tara",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "18th Road",
@@ -4872,7 +4872,7 @@
   {
     "Highway_Name": "Asha Nagar Road",
     "Named_After": "asha",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Lion Safari Road",
@@ -5207,7 +5207,7 @@
   {
     "Highway_Name": "Madh Marve Road",
     "Named_After": "madh marve",
-    "Gender": "male"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Manori Gorai Road",
@@ -5665,11 +5665,6 @@
     "Gender": "male"
   },
   {
-    "Highway_Name": "August Kranti Marg;August Kranti Marg (Gowalia Tank Road)",
-    "Named_After": "kranti kranti gowalia",
-    "Gender": "male"
-  },
-  {
     "Highway_Name": "Bal Moral",
     "Named_After": "bal",
     "Gender": "ungendered"
@@ -5817,7 +5812,7 @@
   {
     "Highway_Name": "Prarthana Samaj Road",
     "Named_After": "prarthana samaj",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "4th Road",
@@ -6822,7 +6817,7 @@
   {
     "Highway_Name": "Manori Marve Road",
     "Named_After": "manori marve",
-    "Gender": "male"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Sundar Lane",
@@ -8272,7 +8267,7 @@
   {
     "Highway_Name": "Irani Wadi Road No 2",
     "Named_After": "irani",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Mahatma Gandhi Cross Road No 3",
@@ -8497,7 +8492,7 @@
   {
     "Highway_Name": "Irani Wadi Road No 3",
     "Named_After": "irani",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Hemu Kalani Cross Road No 3",
@@ -8627,7 +8622,7 @@
   {
     "Highway_Name": "Masrani Lane",
     "Named_After": "masrani",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Magan Nathuram Road",
@@ -8677,7 +8672,7 @@
   {
     "Highway_Name": "Kherani Road",
     "Named_After": "kherani",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "P R Kadam Marg",
@@ -8842,7 +8837,7 @@
   {
     "Highway_Name": "Bharat Petroleum Road",
     "Named_After": "bharat",
-    "Gender": "male"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Deonar Road",
@@ -9597,7 +9592,7 @@
   {
     "Highway_Name": "Prabhodhan Marg",
     "Named_After": "prabhodhan",
-    "Gender": "male"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "R Das Road",
@@ -9822,7 +9817,7 @@
   {
     "Highway_Name": "New Mandala Road",
     "Named_After": "mandala",
-    "Gender": "male"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "C V Raman Road",
@@ -9832,7 +9827,7 @@
   {
     "Highway_Name": "Vidhyarthi Marg",
     "Named_After": "vidhyarthi",
-    "Gender": "male"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Civic Centre Road",
@@ -11007,7 +11002,7 @@
   {
     "Highway_Name": "Bhanushali Lane",
     "Named_After": "bhanushali",
-    "Gender": "female"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Dhamma Kutti Marg",
@@ -11202,7 +11197,7 @@
   {
     "Highway_Name": "Mandala Road",
     "Named_After": "mandala",
-    "Gender": "male"
+    "Gender": "ungendered"
   },
   {
     "Highway_Name": "Narayan D Mistri Marg",
@@ -12830,7 +12825,7 @@
     "Gender": "ungendered"
   },
   {
-    "Highway_Name": "Carmichael Road (M L Dhanukar Marg)",
+    "Highway_Name": "M L Dhanukar Marg",
     "Named_After": "m l dhanukar",
     "Gender": "male"
   },

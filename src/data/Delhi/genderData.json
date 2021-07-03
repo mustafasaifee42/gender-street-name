@@ -187,7 +187,7 @@
     {
         "Highway_Name": "Shanti Path",
         "Named_After": "shanti",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Vinay Marg",
@@ -557,7 +557,7 @@
     {
         "Highway_Name": "Ghazipur Road",
         "Named_After": "ghazipur",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Bhagwan Das Road",
@@ -967,7 +967,7 @@
     {
         "Highway_Name": "Dada Satram Mamtani Marg",
         "Named_After": "dada satram mamtani",
-        "Gender": "female"
+        "Gender": "male"
     },
     {
         "Highway_Name": "Major P. Shrikumar Marg",
@@ -1382,7 +1382,7 @@
     {
         "Highway_Name": "Malcha Marg",
         "Named_After": "malcha",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Dharma Marg",
@@ -1682,7 +1682,7 @@
     {
         "Highway_Name": "Vivek Vihar Road",
         "Named_After": "vivek vihar",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Babar Road",
@@ -1732,7 +1732,7 @@
     {
         "Highway_Name": "Karkari Mor Flyover",
         "Named_After": "karkari mor",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Street No. 15",
@@ -1762,7 +1762,7 @@
     {
         "Highway_Name": "Sadhbhawna Marg",
         "Named_After": "sadhbhawna",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Sahakarita Marg",
@@ -1977,16 +1977,11 @@
     {
         "Highway_Name": "Wazirabad Road",
         "Named_After": "wazirabad",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Ashok Vihar Road",
         "Named_After": "ashok vihar",
-        "Gender": "male"
-    },
-    {
-        "Highway_Name": "Maharaja Agarsain Road",
-        "Named_After": "maharaja agarsain",
         "Gender": "male"
     },
     {
@@ -2017,7 +2012,7 @@
     {
         "Highway_Name": "Maharaja Agrasen Marg",
         "Named_After": "maharaja agrasen",
-        "Gender": "female"
+        "Gender": "male"
     },
     {
         "Highway_Name": "Shalimar Main Road",
@@ -2568,11 +2563,6 @@
         "Highway_Name": "Suryasen Marg",
         "Named_After": "suryasen",
         "Gender": "male"
-    },
-    {
-        "Highway_Name": "Maharaja Agarsen Marg",
-        "Named_After": "maharaja agarsen",
-        "Gender": "female"
     },
     {
         "Highway_Name": "Road No. 3",
@@ -3235,11 +3225,6 @@
         "Gender": "ungendered"
     },
     {
-        "Highway_Name": "Maharaja Agarsen Road",
-        "Named_After": "maharaja agarsen",
-        "Gender": "female"
-    },
-    {
         "Highway_Name": "Nai Basti Road",
         "Named_After": "nai basti",
         "Gender": "ungendered"
@@ -3317,7 +3302,7 @@
     {
         "Highway_Name": "Jafrabad Main Road",
         "Named_After": "jafrabad",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Maharaj Surajmal Marg",
@@ -3377,7 +3362,7 @@
     {
         "Highway_Name": "Chhatra Marg",
         "Named_After": "chhatra",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "E-8",
@@ -3772,7 +3757,7 @@
     {
         "Highway_Name": "Major Sudesh Marg",
         "Named_After": "sudesh",
-        "Gender": "female"
+        "Gender": "male"
     },
     {
         "Highway_Name": "Pandit Lekkhram Sharma Marg",
@@ -4352,12 +4337,12 @@
     {
         "Highway_Name": "Tahirpur Road",
         "Named_After": "tahirpur",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "New Seemapuri Road",
         "Named_After": "seemapuri",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Community Center Road",
@@ -4452,7 +4437,7 @@
     {
         "Highway_Name": "Dr Satpal Sachdeva Marg",
         "Named_After": "dr satpal sachdeva",
-        "Gender": "female"
+        "Gender": "male"
     },
     {
         "Highway_Name": "Flagstaff Road",
@@ -4932,17 +4917,17 @@
     {
         "Highway_Name": "Shanti Nagar r Road",
         "Named_After": "shanti r",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Babarpur Road",
         "Named_After": "babarpur",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Om Vihar Extn. Rd",
         "Named_After": "om vihar extn.",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Bindapur Matiala Road",
@@ -5022,7 +5007,7 @@
     {
         "Highway_Name": "North Nanhey Park Rd",
         "Named_After": "nanhey",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "New T Block Rd",
@@ -5262,7 +5247,7 @@
     {
         "Highway_Name": "Prakriti Marg",
         "Named_After": "prakriti",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Tropical Drive",
@@ -6092,7 +6077,7 @@
     {
         "Highway_Name": "Mayapuri Road",
         "Named_After": "mayapuri",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Shri Vinayak Mandir Marg",
@@ -6317,7 +6302,7 @@
     {
         "Highway_Name": "Makki Sarai Railway Road",
         "Named_After": "makki sarai",
-        "Gender": "female"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Shri Raghuram Mandir Gurudwara Marg",
@@ -6442,7 +6427,7 @@
     {
         "Highway_Name": "South Nanhey Park Road",
         "Named_After": "nanhey",
-        "Gender": "male"
+        "Gender": "ungendered"
     },
     {
         "Highway_Name": "Lane Number 6",
