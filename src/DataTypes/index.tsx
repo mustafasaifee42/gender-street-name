@@ -12,23 +12,15 @@ export interface GeometryDataType {
 }
 
 export interface TagsDataType {
-  bicycle: string;
-  gender: string;
-  highway: string;
-  lanes: string;
-  motorroad: string;
   name: string;
-  'name:hi': string;
-  'name:mr': string;
-  oneway: string;
-  source: string;
+  gender: string
 }
 
 export interface RoadDataType {
-  bounds: BoundDataType;
-  geometry: GeometryDataType[];
-  id: number;
-  nodes: number[];
+  bounds: BoundDataType[];
+  geometry: Array<GeometryDataType[]>;
+  id: number[];
+  nodes: Array<number[]>;
   tags: TagsDataType;
   type: string;
 }

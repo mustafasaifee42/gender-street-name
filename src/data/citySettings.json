@@ -40,5 +40,26 @@
       ],
       "mapScale": 35000
     }
+  },
+  {
+    "city": "Helsinki, FI",
+    "splitMapData": {
+      "width": 350,
+      "height": 300,
+      "translate": [
+        -18175.964936375196,
+        55765.08443379498
+      ],
+      "mapScale": 42000
+    },
+    "combinedMapData": {
+      "width": 350,
+      "height": 300,
+      "translate": [
+        -18175.964936375196,
+        55765.08443379498
+      ],
+      "mapScale": 42000
+    }
   }
 ]

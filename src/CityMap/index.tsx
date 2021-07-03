@@ -6,6 +6,8 @@ import mumbaiMapData from '../data/Mumbai/mapData.json';
 import mumbaiGenderData from '../data/Mumbai/genderData.json';
 import delhiMapData from '../data/Delhi/mapData.json';
 import delhiGenderData from '../data/Delhi/genderData.json';
+import helsinkiMapData from '../data/Helsinki/mapData.json';
+import helsinkiGenderData from '../data/Helsinki/genderData.json';
 import citySettings from '../data/citySettings.json';
 import { RoadDataType, GenderDataType, CitySettingsDataType } from '../DataTypes';
 import { MapVis, SplitMap } from '../MapVis';
@@ -22,7 +24,7 @@ max-width: 720px;
 margin: 20px auto 10px auto;
 flex-wrap: wrap;
 justify-content: space-between;
-padding-top: 20px;
+padding: 20px 10px 0 10px;
 `;
 
 const CityMap = (props: Props) => {
@@ -43,9 +45,9 @@ const CityMap = (props: Props) => {
       gender = mumbaiGenderData as GenderDataType[];
       data = mumbaiMapData as { elements: RoadDataType[] };
       break;
-    case 'Bengaluru, IN':
-      gender = mumbaiGenderData as GenderDataType[];
-      data = mumbaiMapData as { elements: RoadDataType[] };
+    case 'Helsinki, FI':
+      gender = helsinkiGenderData as GenderDataType[];
+      data = helsinkiMapData as { elements: RoadDataType[] };
       break;
     default:
       gender = mumbaiGenderData as GenderDataType[];

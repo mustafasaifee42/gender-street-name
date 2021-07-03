@@ -2,9 +2,9 @@ export const COLORFORMALE = '#00C4A9';
 
 export const COLORFORFEMALE = '#E4615C';
 
-export const NEUTRALCOLORONWHITE = '#CCCCCC';
+export const NEUTRALCOLORONWHITE = '#DDDDDD';
 
-export const NEUTRALCOLORONBLACK = '#555555';
+export const NEUTRALCOLORONBLACK = '#444444';
 
 export const HEADERHEIGHT = 80;
 

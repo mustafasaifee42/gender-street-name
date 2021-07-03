@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import ToggleButton from './Components/Toggle';
-import { DarkModeIcon } from './Components/Icons';
+import { DarkModeIcon, AboutIcon } from './Components/Icons';
 import { HEADERHEIGHT } from './Constants';
 import CityMap from './CityMap';
 
@@ -60,6 +60,9 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 700;
     font-size: 24px;
     font-family: IBM Plex Sans, sans-serif;
+    @media (max-width: 460px) {
+      font-size: 20px;
+    }
   }
   .bold{
     font-weight: 700;
@@ -75,6 +78,12 @@ const GlobalStyle = createGlobalStyle`
     font-family: IBM Plex Sans, sans-serif;
     line-height: 40px;
     margin: 0;
+    @media (max-width: 600px) {
+      font-size: 20px;
+    }
+    @media (max-width: 420px) {
+      font-size: 16px;
+    }
   }
 
   h4 {
@@ -83,6 +92,13 @@ const GlobalStyle = createGlobalStyle`
     text-transform: uppercase;
     font-family: IBM Plex Sans, sans-serif;
     margin: 0;
+    @media (max-width: 600px) {
+      font-size: 12px;
+    }
+    @media (max-width: 420px) {
+      font-size: 10px;
+      text-transform: capitalize;
+    }
   }
 
   .header-dark-mode{
@@ -105,6 +121,12 @@ const GlobalStyle = createGlobalStyle`
     color: var(--black) !important;
   }
 
+  .map-split-key{
+    @media (max-width: 958px) {
+      display: none;
+    }
+  }
+
 
 `;
 
@@ -124,23 +146,23 @@ const Header = styled.header`
   position: fixed;
   width: calc(100vw - 40px);
   top: 0;
+  @media (max-width: 760px) {
+    height: 80px;
+  }
+  @media (max-width: 560px) {
+    padding: 0 10px;
+    width: calc(100vw - 20px);
+  }
 `;
 
 const ModeDiv = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 10px;
+  margin: 0 5px;
 `;
 
 const NavDiv = styled.div`
-  margin: 0 20px;
-  &:last-of-type{
-    margin-right: 0;
-  }
   cursor: pointer;
-  &:hover {
-    color: var(--primary-color);
-  }
 `;
 
 const Label = styled.div`
@@ -155,6 +177,10 @@ const SettingsDiv = styled.div`
 const CityTitle = styled.div`
   font-size: 40px;
   font-weight: 300;
+
+  @media (max-width: 760px) {
+    display:none;
+  }
 `;
 
 const FooterMenu = styled.div`
@@ -186,12 +212,12 @@ const CityTags = styled.div<CityTagProps>`
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [splitMap, setSplitMap] = useState(true);
-  const [selectedCity, setSelectedCity] = useState('Delhi, IN')
+  const [splitMap, setSplitMap] = useState(false);
+  const [selectedCity, setSelectedCity] = useState('Mumbai, IN')
   const cityList = [
     'Delhi, IN',
     'Mumbai, IN',
-    'Bengaluru, IN'
+    'Helsinki, FI'
   ]
   return (
     <>
@@ -204,16 +230,16 @@ function App() {
           {selectedCity}
         </CityTitle>
         <SettingsDiv>
-          <ModeDiv>
-            <Label>Combine Map</Label>
-            <ToggleButton click={() => { setSplitMap(!splitMap) }} selected={!splitMap} />
+          <ModeDiv className="map-split-key">
+            <Label>Split Map</Label>
+            <ToggleButton click={() => { setSplitMap(!splitMap) }} selected={splitMap} />
           </ModeDiv>
           <ModeDiv>
             <DarkModeIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
             <ToggleButton click={() => { setDarkMode(!darkMode) }} selected={darkMode} />
           </ModeDiv>
           <NavDiv>
-            About
+            <AboutIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
           </NavDiv>
         </SettingsDiv>
       </Header>

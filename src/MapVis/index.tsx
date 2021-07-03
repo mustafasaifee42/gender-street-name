@@ -1,9 +1,11 @@
 import { geoMercator } from 'd3-geo';
-import { useState } from 'react';
+import { select } from 'd3-selection';
+import { useState, useEffect, useRef } from 'react';
 import { RoadDataType, GeometryDataType } from '../DataTypes';
 import { COLORFORFEMALE, COLORFORMALE, NEUTRALCOLORONWHITE, NEUTRALCOLORONBLACK, TOPPADDING } from '../Constants';
 import styled from 'styled-components';
 import _ from 'lodash';
+import { zoom } from 'd3-zoom';
 
 interface Props {
   data: { elements: RoadDataType[] };
@@ -64,25 +66,46 @@ export const MapVis = (props: Props) => {
   const [tooltipPos, setTooltipPos] = useState<Position | undefined>(undefined)
   const projection = geoMercator().scale(mapScale).translate(translate);
   const strokeWidth = window.innerWidth / width < (window.innerHeight - TOPPADDING) / height ? width / window.innerWidth : height / (window.innerHeight - TOPPADDING);
+
+  const mapSvg = useRef<SVGSVGElement>(null);
+  const mapG = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    const mapGSelect = select(mapG.current);
+    const mapSvgSelect = select(mapSvg.current);
+    const zoomBehaviour = zoom()
+      .scaleExtent([1, 3])
+      .translateExtent([[0, 0], [width, height]])
+      .on('zoom', ({ transform }) => {
+        mapGSelect.attr('transform', transform);
+      });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mapSvgSelect.call(zoomBehaviour as any);
+  }, [height, width]);
   return (
     <>
       <SVGEl darkMode={darkMode}>
-        <svg width={window.innerWidth} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`}>
+        <svg width={window.innerWidth} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`} ref={mapSvg}>
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
-          <g>
+          <g ref={mapG}>
             {
               data.elements.map((d: RoadDataType, i: number) => {
-                let path = "M"
-                d.geometry.forEach((geo: GeometryDataType, j: number) => {
-                  const point = projection([geo.lon, geo.lat]) as [number, number]
-                  if (j !== d.geometry.length - 1)
-                    path = path + `${point[0]} ${point[1]}L`
-                  else
-                    path = path + `${point[0]} ${point[1]}`
+                let masterPath = ""
+                d.geometry.forEach((geo: GeometryDataType[], j: number) => {
+                  let path = " M"
+                  geo.forEach((c: GeometryDataType, k: number) => {
+                    const point = projection([c.lon, c.lat]) as [number, number]
+                    if (k !== geo.length - 1)
+                      path = path + `${point[0]} ${point[1]}L`
+                    else
+                      path = path + `${point[0]} ${point[1]}`
+                  })
+                  masterPath = masterPath + path
                 })
                 return <path
                   key={i}
-                  d={path}
+                  d={masterPath}
                   className={'streetPath'}
                   stroke={
                     d.tags.gender === "male" ? COLORFORMALE :
@@ -143,115 +166,166 @@ export const SplitMap = (props: Props) => {
   /*
   const coordinates = geoMercator().scale(mapScale)([77.1025, 28.7041]) as any
   console.log(coordinates)
+  console.log(data.elements.length)
   */
+
+  const mapMaleSvg = useRef<SVGSVGElement>(null);
+  const mapMaleG = useRef<SVGGElement>(null);
+  const mapFemaleSvg = useRef<SVGSVGElement>(null);
+  const mapFemaleG = useRef<SVGGElement>(null);
+  const mapUngenderedSvg = useRef<SVGSVGElement>(null);
+  const mapUngenderedG = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    const mapMaleGSelect = select(mapMaleG.current);
+    const mapMaleSvgSelect = select(mapMaleSvg.current);
+    const mapFemaleGSelect = select(mapFemaleG.current);
+    const mapFemaleSvgSelect = select(mapFemaleSvg.current);
+    const mapUngenderedGSelect = select(mapUngenderedG.current);
+    const mapUngenderedSvgSelect = select(mapUngenderedSvg.current);
+    const zoomBehaviour = zoom()
+      .scaleExtent([1, 3])
+      .translateExtent([[0, 0], [width, height]])
+      .on('zoom', ({ transform }) => {
+        mapMaleGSelect.attr('transform', transform);
+        mapFemaleGSelect.attr('transform', transform);
+        mapUngenderedGSelect.attr('transform', transform);
+        console.log("hello")
+      });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mapMaleSvgSelect.call(zoomBehaviour as any);
+    mapFemaleSvgSelect.call(zoomBehaviour as any);
+    mapUngenderedSvgSelect.call(zoomBehaviour as any);
+  }, [height, width]);
+
   const strokeWidth = ((window.innerWidth / 3) - 10) / width < (window.innerHeight - TOPPADDING) / height ? width / ((window.innerWidth / 3) - 10) : height / (window.innerHeight - TOPPADDING);
   return (
     <>
       <SVGEl darkMode={darkMode}>
-        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`}>
+        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`} ref={mapMaleSvg}>
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
-          {
-            _.filter(data.elements, (o: RoadDataType) => o.tags.gender === 'male').map((d: RoadDataType, i: number) => {
-              let path = "M"
-              d.geometry.forEach((geo: GeometryDataType, j: number) => {
-                const point = projection([geo.lon, geo.lat]) as [number, number]
-                if (j !== d.geometry.length - 1)
-                  path = path + `${point[0]} ${point[1]}L`
-                else
-                  path = path + `${point[0]} ${point[1]}`
+          <g ref={mapMaleG}>
+            {
+              _.filter(data.elements, (o: RoadDataType) => o.tags.gender === 'male').map((d: RoadDataType, i: number) => {
+                let masterPath = ""
+                d.geometry.forEach((geo: GeometryDataType[], j: number) => {
+                  let path = " M"
+                  geo.forEach((c: GeometryDataType, k: number) => {
+                    const point = projection([c.lon, c.lat]) as [number, number]
+                    if (k !== geo.length - 1)
+                      path = path + `${point[0]} ${point[1]}L`
+                    else
+                      path = path + `${point[0]} ${point[1]}`
+                  })
+                  masterPath = masterPath + path
+                })
+                return <path
+                  key={i}
+                  className={'streetPath'}
+                  d={masterPath}
+                  stroke={COLORFORMALE}
+                  strokeWidth={strokeWidth}
+                  opacity={roadName ? roadName === d.tags.name ? "1" : "0.2" : "1"}
+                  fill="none"
+                  onMouseOver={(event) => {
+                    setRoadName(d.tags.name);
+                    setTooltipPos({ x: event.clientX, y: event.clientY });
+                    setSelectedRoadGender(d.tags.gender);
+                  }}
+                  onMouseLeave={(event) => {
+                    setRoadName(undefined);
+                    setTooltipPos({ x: event.clientX, y: event.clientY });
+                    setSelectedRoadGender(undefined);
+                  }}
+                />
               })
-              return <path
-                key={i}
-                className={'streetPath'}
-                d={path}
-                stroke={COLORFORMALE}
-                strokeWidth={strokeWidth}
-                opacity={roadName ? roadName === d.tags.name ? "1" : "0.2" : "1"}
-                fill="none"
-                onMouseOver={(event) => {
-                  setRoadName(d.tags.name);
-                  setTooltipPos({ x: event.clientX, y: event.clientY });
-                  setSelectedRoadGender(d.tags.gender);
-                }}
-                onMouseLeave={(event) => {
-                  setRoadName(undefined);
-                  setTooltipPos({ x: event.clientX, y: event.clientY });
-                  setSelectedRoadGender(undefined);
-                }}
-              />
-            })
-          }
+            }
+          </g>
         </svg>
-        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`}>
+        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`} ref={mapFemaleSvg}>
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
-          {
-            _.filter(data.elements, (o: RoadDataType) => o.tags.gender === 'female').map((d: RoadDataType, i: number) => {
-              let path = "M"
-              d.geometry.forEach((geo: GeometryDataType, j: number) => {
-                const point = projection([geo.lon, geo.lat]) as [number, number]
-                if (j !== d.geometry.length - 1)
-                  path = path + `${point[0]} ${point[1]}L`
-                else
-                  path = path + `${point[0]} ${point[1]}`
+          <g ref={mapFemaleG}>
+            {
+              _.filter(data.elements, (o: RoadDataType) => o.tags.gender === 'female').map((d: RoadDataType, i: number) => {
+                let masterPath = ""
+                d.geometry.forEach((geo: GeometryDataType[], j: number) => {
+                  let path = " M"
+                  geo.forEach((c: GeometryDataType, k: number) => {
+                    const point = projection([c.lon, c.lat]) as [number, number]
+                    if (k !== geo.length - 1)
+                      path = path + `${point[0]} ${point[1]}L`
+                    else
+                      path = path + `${point[0]} ${point[1]}`
+                  })
+                  masterPath = masterPath + path
+                })
+                return <path
+                  key={i}
+                  className={'streetPath'}
+                  d={masterPath}
+                  stroke={COLORFORFEMALE}
+                  strokeWidth={strokeWidth}
+                  fill="none"
+                  opacity={roadName ? roadName === d.tags.name ? "1" : "0.2" : "1"}
+                  onMouseOver={(event) => {
+                    setRoadName(d.tags.name);
+                    setTooltipPos({ x: event.clientX, y: event.clientY });
+                    setSelectedRoadGender(d.tags.gender);
+                  }}
+                  onMouseLeave={(event) => {
+                    setRoadName(undefined);
+                    setTooltipPos({ x: event.clientX, y: event.clientY });
+                    setSelectedRoadGender(undefined);
+                  }}
+                />
               })
-              return <path
-                key={i}
-                className={'streetPath'}
-                d={path}
-                stroke={COLORFORFEMALE}
-                strokeWidth={strokeWidth}
-                fill="none"
-                opacity={roadName ? roadName === d.tags.name ? "1" : "0.2" : "1"}
-                onMouseOver={(event) => {
-                  setRoadName(d.tags.name);
-                  setTooltipPos({ x: event.clientX, y: event.clientY });
-                  setSelectedRoadGender(d.tags.gender);
-                }}
-                onMouseLeave={(event) => {
-                  setRoadName(undefined);
-                  setTooltipPos({ x: event.clientX, y: event.clientY });
-                  setSelectedRoadGender(undefined);
-                }}
-              />
-            })
-          }
+            }
+          </g>
         </svg>
-        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`}>
+        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`} ref={mapUngenderedSvg}>
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
-          {
-            _.filter(data.elements, (o: RoadDataType) => o.tags.gender !== 'female' && o.tags.gender !== 'male').map((d: RoadDataType, i: number) => {
-              let path = "M"
-              d.geometry.forEach((geo: GeometryDataType, j: number) => {
-                const point = projection([geo.lon, geo.lat]) as [number, number]
-                if (j !== d.geometry.length - 1)
-                  path = path + `${point[0]} ${point[1]}L`
-                else
-                  path = path + `${point[0]} ${point[1]}`
+          <g ref={mapUngenderedG}>
+            {
+
+              _.filter(data.elements, (o: RoadDataType) => o.tags.gender !== 'female' && o.tags.gender !== 'male').map((d: RoadDataType, i: number) => {
+                let masterPath = ""
+                d.geometry.forEach((geo: GeometryDataType[], j: number) => {
+                  let path = " M"
+                  geo.forEach((c: GeometryDataType, k: number) => {
+                    const point = projection([c.lon, c.lat]) as [number, number]
+                    if (k !== geo.length - 1)
+                      path = path + `${point[0]} ${point[1]}L`
+                    else
+                      path = path + `${point[0]} ${point[1]}`
+                  })
+                  masterPath = masterPath + path
+                })
+                return <path
+                  key={i}
+                  d={masterPath}
+                  stroke={
+                    darkMode ? NEUTRALCOLORONBLACK :
+                      NEUTRALCOLORONWHITE
+                  }
+                  className={'streetPath'}
+                  strokeWidth={strokeWidth}
+                  opacity={roadName ? roadName === d.tags.name ? "1" : "0.2" : "1"}
+                  fill="none"
+                  onMouseOver={(event) => {
+                    setRoadName(d.tags.name);
+                    setTooltipPos({ x: event.clientX, y: event.clientY });
+                    setSelectedRoadGender(d.tags.gender);
+                  }}
+                  onMouseLeave={(event) => {
+                    setRoadName(undefined);
+                    setTooltipPos({ x: event.clientX, y: event.clientY });
+                    setSelectedRoadGender(undefined);
+                  }}
+                />
               })
-              return <path
-                key={i}
-                d={path}
-                stroke={
-                  darkMode ? NEUTRALCOLORONBLACK :
-                    NEUTRALCOLORONWHITE
-                }
-                className={'streetPath'}
-                strokeWidth={strokeWidth}
-                opacity={roadName ? roadName === d.tags.name ? "1" : "0.2" : "1"}
-                fill="none"
-                onMouseOver={(event) => {
-                  setRoadName(d.tags.name);
-                  setTooltipPos({ x: event.clientX, y: event.clientY });
-                  setSelectedRoadGender(d.tags.gender);
-                }}
-                onMouseLeave={(event) => {
-                  setRoadName(undefined);
-                  setTooltipPos({ x: event.clientX, y: event.clientY });
-                  setSelectedRoadGender(undefined);
-                }}
-              />
-            })
-          }
+            }
+          </g>
         </svg>
       </SVGEl>
       {
