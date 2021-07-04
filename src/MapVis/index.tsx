@@ -90,7 +90,7 @@ export const MapVis = (props: Props) => {
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapG}>
             {
-              data.elements.map((d: RoadDataType, i: number) => {
+              data.elements.sort((a: RoadDataType, b: RoadDataType) => a.tags.gender > b.tags.gender ? -1 : 1).map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"

@@ -3,7 +3,7 @@
     "city": "Mumbai, IN",
     "splitMapData": {
       "width": 438,
-      "height": 689,
+      "height": 705,
       "translate": [
         -127025.58162806717,
         34296.61101788923
@@ -12,7 +12,7 @@
     },
     "combinedMapData": {
       "width": 438,
-      "height": 689,
+      "height": 705,
       "translate": [
         -127025.58162806717,
         34296.61101788923
@@ -23,19 +23,19 @@
   {
     "city": "Delhi, IN",
     "splitMapData": {
-      "width": 450,
+      "width": 300,
       "height": 350,
       "translate": [
-        -46864.62432594641,
+        -46952.62432594641,
         18454.815400446667
       ],
       "mapScale": 35000
     },
     "combinedMapData": {
-      "width": 450,
+      "width": 300,
       "height": 350,
       "translate": [
-        -46864.62432594641,
+        -46952.62432594641,
         18454.815400446667
       ],
       "mapScale": 35000
@@ -44,20 +44,20 @@
   {
     "city": "Helsinki, FI",
     "splitMapData": {
-      "width": 350,
-      "height": 300,
+      "width": 345,
+      "height": 250,
       "translate": [
-        -18175.964936375196,
-        55765.08443379498
+        -18195.964936375196,
+        55755.08443379498
       ],
       "mapScale": 42000
     },
     "combinedMapData": {
-      "width": 350,
-      "height": 300,
+      "width": 345,
+      "height": 250,
       "translate": [
-        -18175.964936375196,
-        55765.08443379498
+        -18195.964936375196,
+        55755.08443379498
       ],
       "mapScale": 42000
     }
