@@ -52,6 +52,29 @@ const TooltipText = styled.div`
   hyphens: auto;
 `
 
+const PercentValue = styled.span`
+  font-size: 16px;
+  font-weight: 700;
+  font-family: IBM Plex Sans, sans-serif;
+  margin: 0;
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
+  @media (max-width: 420px) {
+    font-size: 12px;
+  }
+`
+
+const H3 = styled.h3`
+  line-height: 32px;
+  @media (max-width: 600px) {
+    font-size: 24px;
+  }
+  @media (max-width: 420px) {
+    font-size: 20px;
+  }
+`;
+
 const CityMap = (props: Props) => {
   const { darkMode, splitMap, queryParameter } = props;
   let selectedCity = "Mumbai, IN"
@@ -91,13 +114,12 @@ const CityMap = (props: Props) => {
               <AboutIconWOHover size={16} fill={darkMode ? '#999999' : '#AAAAAA'} />
             </InfoIconEl>
           </HeadingDiv>
-
-          <h3>
-            {_.filter(gender, (o: GenderDataType) => o.Gender === 'male').length} (
-            {
-              (_.filter(gender, (o: GenderDataType) => o.Gender === 'male').length * 100 / gender.length).toFixed(1)
-            }%)
-          </h3>
+          <H3>
+            {_.filter(gender, (o: GenderDataType) => o.Gender === 'male').length} <PercentValue>(
+              {
+                (_.filter(gender, (o: GenderDataType) => o.Gender === 'male').length * 100 / gender.length).toFixed(1)
+              }%)</PercentValue>
+          </H3>
         </div>
         <div style={{ color: COLORFORFEMALE }}>
           <HeadingDiv>
@@ -106,12 +128,12 @@ const CityMap = (props: Props) => {
               <AboutIconWOHover size={16} fill={darkMode ? '#999999' : '#AAAAAA'} />
             </InfoIconEl>
           </HeadingDiv>
-          <h3>
-            {_.filter(gender, (o: GenderDataType) => o.Gender === 'female').length} (
-            {
-              (_.filter(gender, (o: GenderDataType) => o.Gender === 'female').length * 100 / gender.length).toFixed(1)
-            }%)
-          </h3>
+          <H3>
+            {_.filter(gender, (o: GenderDataType) => o.Gender === 'female').length} <PercentValue>(
+              {
+                (_.filter(gender, (o: GenderDataType) => o.Gender === 'female').length * 100 / gender.length).toFixed(1)
+              }%)</PercentValue>
+          </H3>
         </div>
         <div style={darkMode ? { color: NEUTRALCOLORONBLACK } : { color: NEUTRALCOLORONWHITE }}>
           <HeadingDiv>
@@ -120,12 +142,12 @@ const CityMap = (props: Props) => {
               <AboutIconWOHover size={16} fill={darkMode ? '#999999' : '#AAAAAA'} />
             </InfoIconEl>
           </HeadingDiv>
-          <h3>
-            {_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').length} (
-            {
-              (_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').length * 100 / gender.length).toFixed(1)
-            }%)
-          </h3>
+          <H3>
+            {_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').length} <PercentValue>(
+              {
+                (_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').length * 100 / gender.length).toFixed(1)
+              }%)</PercentValue>
+          </H3>
         </div>
       </BodyHeader>
       {

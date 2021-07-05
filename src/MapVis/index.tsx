@@ -86,7 +86,7 @@ export const MapVis = (props: Props) => {
   return (
     <>
       <SVGEl darkMode={darkMode}>
-        <svg width={window.innerWidth} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`} ref={mapSvg}>
+        <svg style={{ height: `calc(100vh - ${TOPPADDING}px)`, width: '100vw' }} viewBox={`0 0 ${width} ${height}`} ref={mapSvg}>
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapG}>
             {
@@ -201,7 +201,7 @@ export const SplitMap = (props: Props) => {
   return (
     <>
       <SVGEl darkMode={darkMode}>
-        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`} ref={mapMaleSvg}>
+        <svg style={{ height: `calc(100vh - ${TOPPADDING}px)`, width: 'calc(33.33vw - 10px)' }} viewBox={`0 0 ${width} ${height}`} ref={mapMaleSvg}>
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapMaleG}>
             {
@@ -241,7 +241,7 @@ export const SplitMap = (props: Props) => {
             }
           </g>
         </svg>
-        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`} ref={mapFemaleSvg}>
+        <svg style={{ height: `calc(100vh - ${TOPPADDING}px)`, width: 'calc(33.33vw - 10px)' }} viewBox={`0 0 ${width} ${height}`} ref={mapFemaleSvg}>
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapFemaleG}>
             {
@@ -281,7 +281,7 @@ export const SplitMap = (props: Props) => {
             }
           </g>
         </svg>
-        <svg width={(window.innerWidth / 3) - 10} height={window.innerHeight - TOPPADDING} viewBox={`0 0 ${width} ${height}`} ref={mapUngenderedSvg}>
+        <svg style={{ height: `calc(100vh - ${TOPPADDING}px)`, width: 'calc(33.33vw - 10px)' }} viewBox={`0 0 ${width} ${height}`} ref={mapUngenderedSvg}>
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapUngenderedG}>
             {

@@ -11,6 +11,9 @@ import {
   useLocation
 } from "react-router-dom";
 
+interface Mode {
+  darkMode: boolean;
+}
 
 const BodyArea = styled.div`
   min-height: calc(100vh - ${HEADERHEIGHT}px);
@@ -49,6 +52,17 @@ const NavDiv = styled.div`
 
 const Label = styled.div`
   margin: 0 10px;
+  font-style: normal;
+`;
+
+const NavLabel = styled.div<Mode>`
+  margin: 0;
+  font-style: normal;
+  color: ${props => props.darkMode ? 'var(--white)' : 'var(--black)'};
+  &:hover {
+    color: var(--primary-color);
+    font-weight: normal;
+  }
 `;
 
 const SettingsDiv = styled.div`
@@ -92,7 +106,7 @@ const CityTags = styled.div<CityTagProps>`
   font-weight:  700;
 
   @media (max-width: 420px) {
-    margin: 0;
+    margin: 0 10px;
   }
 `;
 
@@ -145,9 +159,15 @@ function Main() {
   return (
     <>
       <Header className={darkMode ? 'header-dark-mode' : 'light-mode'}>
-        <h1>
-          Gendered<span className="thin">Toponyms</span>
-        </h1>
+        {
+          window.innerWidth < 420 ?
+            <h1>
+              G<span className="thin">Toponyms</span>
+            </h1> :
+            <h1>
+              Gendered<span className="thin">Toponyms</span>
+            </h1>
+        }
         <CityTitle>
           {selectedCity}
         </CityTitle>
@@ -159,6 +179,11 @@ function Main() {
           <ModeDiv>
             <DarkModeIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
             <ToggleButton click={() => { setDarkMode(!darkMode) }} selected={darkMode} />
+          </ModeDiv>
+          <ModeDiv>
+            <a href="./gendered-toponyms.pdf" target="_blank" rel="noopener noreferrer">
+              <NavLabel darkMode={darkMode}>Posters</NavLabel>
+            </a>
           </ModeDiv>
           <NavDiv onClick={() => { setIsOpen(true) }}>
             <AboutIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
@@ -202,7 +227,7 @@ function Main() {
           Places and streets names define how a person interacts with a city. Often they are named after important personalities, gods, and goddesses. We wanted to study and visualize the distribution of gender in eponymous streets.
           <br />
           <br />
-          The project currently visualizes the streets in Helsinki, Finland; Delhi, India; and Mumbai, India. (Since those are the cities I have lived in and know about).
+          The project currently visualizes the streets in Helsinki, Finland; Delhi, India; and Mumbai, India.
           <br />
           <br />
           <span className="bold">Data</span>
