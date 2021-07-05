@@ -166,7 +166,6 @@ export const SplitMap = (props: Props) => {
   /*
   const coordinates = geoMercator().scale(mapScale)([77.1025, 28.7041]) as any
   console.log(coordinates)
-  console.log(data.elements.length)
   */
 
   const mapMaleSvg = useRef<SVGSVGElement>(null);
@@ -190,7 +189,6 @@ export const SplitMap = (props: Props) => {
         mapMaleGSelect.attr('transform', transform);
         mapFemaleGSelect.attr('transform', transform);
         mapUngenderedGSelect.attr('transform', transform);
-        console.log("hello")
       });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

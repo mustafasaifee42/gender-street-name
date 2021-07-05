@@ -17,7 +17,7 @@ import ReactTooltip from "react-tooltip";
 interface Props {
   darkMode: boolean;
   splitMap: boolean;
-  selectedCity: string | null;
+  queryParameter: string | null;
 }
 
 const BodyHeader = styled.div`
@@ -53,30 +53,32 @@ const TooltipText = styled.div`
 `
 
 const CityMap = (props: Props) => {
-  const { darkMode, splitMap, selectedCity } = props;
+  const { darkMode, splitMap, queryParameter } = props;
+  let selectedCity = "Mumbai, IN"
   let data = delhiMapData as { elements: RoadDataType[] };
-
-  data.elements.forEach((d) => {
-    if (!d.tags.gender) { console.log(d.tags.name) }
-  })
+  console.log(queryParameter)
   let gender = delhiGenderData as GenderDataType[];
 
-  switch (selectedCity) {
-    case 'Delhi, IN':
+  switch (queryParameter) {
+    case 'delhi-in':
       gender = delhiGenderData as GenderDataType[];
       data = delhiMapData as { elements: RoadDataType[] };
+      selectedCity = "Delhi, IN";
       break;
-    case 'Mumbai, IN':
+    case 'mumbai-in':
       gender = mumbaiGenderData as GenderDataType[];
       data = mumbaiMapData as { elements: RoadDataType[] };
+      selectedCity = "Mumbai, IN";
       break;
-    case 'Helsinki, FI':
+    case 'helsinki-fi':
       gender = helsinkiGenderData as GenderDataType[];
       data = helsinkiMapData as { elements: RoadDataType[] };
+      selectedCity = "Helsinki, FI";
       break;
     default:
       gender = mumbaiGenderData as GenderDataType[];
       data = mumbaiMapData as { elements: RoadDataType[] };
+      selectedCity = "Mumbai, IN"
   }
   const selectedCityData = _.filter(citySettings, (o: CitySettingsDataType) => o.city === selectedCity)[0] as CitySettingsDataType;
   return (
