@@ -92,6 +92,9 @@ const InfoBox = styled.div<DarkMode>`
   padding: 5px;
   font-size: 12px;
   font-style: italic;
+  @media (max-width: 600px) {
+    font-size: 10px;
+  }
 `
 
 const CityMap = (props: Props) => {
@@ -214,7 +217,7 @@ const CityMap = (props: Props) => {
             />
           }
           <InfoBox darkMode={darkMode}>
-            Scroll to zoom and hover to see the street names
+            Scroll {'&'} drag to pan {'&'} zoom and hover to see details
           </InfoBox>
           <ReactTooltip place="bottom" type={darkMode ? 'dark' : 'light'} effect="solid" id='maleTooltip'>
             <TooltipDiv>
