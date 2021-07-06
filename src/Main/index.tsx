@@ -224,10 +224,10 @@ function Main() {
       >
         <h2>Gendered<span className="thin">Toponyms</span></h2>
         <ModalContent>
-          Places and streets names define how a person interacts with a city. Often they are named after important personalities, gods, and goddesses. We wanted to study and visualize the distribution of gender in eponymous streets.
+          Places and streets names define how a person interacts with a city. Often they are named after important personalities, gods, and goddesses. The project aims to study and visualize the distribution of gender in eponymous streets.
           <br />
           <br />
-          The project currently visualizes the streets in Helsinki, Finland; Delhi, India; and Mumbai, India.
+          The project currently visualizes the streets in Delhi(IN), Mumbai(IN) and Helsinki(FI).
           <br />
           <br />
           <span className="bold">Data</span>
@@ -235,13 +235,13 @@ function Main() {
           Currently, the data only focuses on the cisgender distribution because of the way the data is collected; since we are using names to identify if a street is named after a particular gender.
           <br />
           <br />
-          Also, note the if a street is named after a landmark or building and that landmark is named after a gender; then we mark the street to be named after that gender. For ex. if a street name is St. Johns Church street; we mark it as named after a male as the street is named after St. John Church which is named after a male.
+          Also, note the if a street is named after a landmark or building and that landmark is named after a gender; the street is tagged to be named after that gender. For ex. if a street name is St. Johns Church street; it is taggeded as named after a male as the street is named after St. John Church which is named after a male.
           <br />
           <br />
-          If a street is named after last or family name or has only initials for first and middlle name then the street is categorized as ungendered if no information could be found to categorize the name as male or female. For ex. KN Gaikwad Marg is marked ungendered as we weren't able to find any information what KN stands for; even though the street is clearly named after a human.
+          If a street is named after last or family name or has only initials for first and middlle name then the street is tagged as ungendered if no information could be found to categorize the name as male or female. For ex. KN Gaikwad Marg is tagged ungendered as no information was available for what KN stands for; even though the street is clearly named after a human.
           <br />
           <br />
-          If the street is called something that can be a name and is also a common word in the language and if no proof can be found that the street is named after a human then that street is marked ungendered. For ex. Pragati street is marked ungendered as although Pragati is a female name in India it also means progress in hindi.
+          If the street is called something that can be a name and is also a common word in the language and if no proof can be found that the street is named after a human then that street is tagged ungendered. For ex. Pragati street is tagged ungendered as although Pragati is a female name in India it also means progress in hindi.
           <br />
           <br />
           <span className="italics">The source code of the visualization can be found on <a href="https://github.com/mustafasaifee42/gender-street-name" target="_blank" rel="noopener noreferrer">Github</a></span>
@@ -250,17 +250,17 @@ function Main() {
           <hr />
           <br />
           <h3>Methodology</h3>
-          To get all the streets in a particular city, we used open data from OpenStreetMap.
+          To get all the streets in a particular city, open data from OpenStreetMap is used.
           <br />
           <br />
           <span className="bold">Delhi and Mumbai</span>
           <br />
-          We first removed numbers, special characters, stopwords, keywords like highway, road, apartment, street, mandir, masjid, church, square, margs, gali, etc., and neighborhood names from the street names. Then we pass these parsed names (with length {'>'} 3 characters) through NamSor API ( an API to classifies personal names accurately by gender) to identify the gender. <span className="italics">Dataset for Mumbai can be found <a href="https://github.com/mustafasaifee42/gender-street-name/tree/main/src/data/Mumbai" target="_blank" rel="noopener noreferrer">here</a> and for Delhi can be found <a href="https://github.com/mustafasaifee42/gender-street-name/tree/main/src/data/Delhi" target="_blank" rel="noopener noreferrer">here</a>.</span>
+          Numbers, special characters, stopwords, keywords like highway, road, apartment, street, mandir, masjid, church, square, margs, gali, etc., and neighborhood names  are first removed from the street names. Then these parsed names (with length {'>'} 3 characters) are passed through NamSor API (an API to classifies personal names accurately by gender) to identify the gender. <span className="italics">Dataset for Mumbai can be found <a href="https://github.com/mustafasaifee42/gender-street-name/tree/main/src/data/Mumbai" target="_blank" rel="noopener noreferrer">here</a> and for Delhi can be found <a href="https://github.com/mustafasaifee42/gender-street-name/tree/main/src/data/Delhi" target="_blank" rel="noopener noreferrer">here</a>.</span>
           <br />
           <br />
           <span className="bold">Helsinki</span>
           <br />
-          We first removed numbers, special characters, keywords like tie, katu, kuja, väg (for Helsinki), etc. from the Finnish and Swedish names of streets. Then we matched the parsed Finnish names and Swedish names of streets, and if the street names matched we assumed that the street is named after a proper noun. This helped us reduce the number of street names to be checked and then we tagged these streets manually using data from Helsingin Kadunnimet (a book about the history of street names in Helsinki). <span className="italics">Dataset for Helsinki can be found <a href="https://github.com/mustafasaifee42/gender-street-name/tree/main/src/data/Helsinki" target="_blank" rel="noopener noreferrer">here</a>.</span>
+          Numbers, special characters, keywords like tie, katu, kuja, väg (for Helsinki), etc. are first removed from the Finnish and Swedish names of streets. Then the parsed Finnish names and Swedish names of streets are compared, and if the street names matched we assumed that the street is named after a proper noun. This helps in reducing the number of street names to be checked and then these streets are tagged manually using data from Helsingin Kadunnimet (a book about the history of street names in Helsinki). <span className="italics">Dataset for Helsinki can be found <a href="https://github.com/mustafasaifee42/gender-street-name/tree/main/src/data/Helsinki" target="_blank" rel="noopener noreferrer">here</a>.</span>
           <br />
           <br />
           <hr />

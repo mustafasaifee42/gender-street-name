@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { zoom } from 'd3-zoom';
 
 interface Props {
-  data: { elements: RoadDataType[] };
+  data: RoadDataType[];
   width: number;
   height: number;
   mapScale: number;
@@ -90,7 +90,7 @@ export const MapVis = (props: Props) => {
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapG}>
             {
-              data.elements.sort((a: RoadDataType, b: RoadDataType) => a.tags.gender > b.tags.gender ? -1 : 1).map((d: RoadDataType, i: number) => {
+              data.sort((a: RoadDataType, b: RoadDataType) => a.tags.gender > b.tags.gender ? -1 : 1).map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"
@@ -205,7 +205,7 @@ export const SplitMap = (props: Props) => {
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapMaleG}>
             {
-              _.filter(data.elements, (o: RoadDataType) => o.tags.gender === 'male').map((d: RoadDataType, i: number) => {
+              _.filter(data, (o: RoadDataType) => o.tags.gender === 'male').map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"
@@ -245,7 +245,7 @@ export const SplitMap = (props: Props) => {
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapFemaleG}>
             {
-              _.filter(data.elements, (o: RoadDataType) => o.tags.gender === 'female').map((d: RoadDataType, i: number) => {
+              _.filter(data, (o: RoadDataType) => o.tags.gender === 'female').map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"
@@ -286,7 +286,7 @@ export const SplitMap = (props: Props) => {
           <g ref={mapUngenderedG}>
             {
 
-              _.filter(data.elements, (o: RoadDataType) => o.tags.gender !== 'female' && o.tags.gender !== 'male').map((d: RoadDataType, i: number) => {
+              _.filter(data, (o: RoadDataType) => o.tags.gender !== 'female' && o.tags.gender !== 'male').map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"
