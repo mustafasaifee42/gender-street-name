@@ -232,7 +232,7 @@ function Main() {
           <br />
           <span className="bold">Data</span>
           <br />
-          Currently, the data only focuses on the cisgender distribution because of the way the data is collected; since we are using names to identify if a street is named after a particular gender.
+          Currently, the data only focuses on the binary gender distribution because of the way the data is collected; since we are using names to identify if a street is named after a particular gender.
           <br />
           <br />
           Also, note the if a street is named after a landmark or building and that landmark is named after a gender; the street is tagged to be named after that gender. For ex. if a street name is St. Johns Church street; it is taggeded as named after a male as the street is named after St. John Church which is named after a male.
