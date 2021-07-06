@@ -16,6 +16,10 @@ interface Props {
   queryParameter: string | null;
 }
 
+interface DarkMode {
+  darkMode: boolean;
+}
+
 const BodyHeader = styled.div`
 display: flex;
 max-width: 720px;
@@ -76,6 +80,18 @@ const LoaderDiv = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
+`
+
+const InfoBox = styled.div<DarkMode>`
+  background-color: ${props => props.darkMode ? 'rgba(255,255,255,0.1)' : 'var(--light-gray)'};
+  color: ${props => props.darkMode ? 'var(--white)' : 'var(--black)'};
+  position: fixed;
+  z-index: 1000;
+  right: 10px;
+  bottom: 60px;
+  padding: 5px;
+  font-size: 12px;
+  font-style: italic;
 `
 
 const CityMap = (props: Props) => {
@@ -197,6 +213,9 @@ const CityMap = (props: Props) => {
               darkMode={darkMode}
             />
           }
+          <InfoBox darkMode={darkMode}>
+            Scroll to zoom and hover to see the street names
+          </InfoBox>
           <ReactTooltip place="bottom" type={darkMode ? 'dark' : 'light'} effect="solid" id='maleTooltip'>
             <TooltipDiv>
               <TooltipText>Show the number of streets named after male human or male mythological/fictional characters.</TooltipText>
