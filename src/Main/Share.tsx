@@ -37,7 +37,7 @@ const ShareEl = (props: Props) => {
   const femaleCount = _.filter(gender, (o: GenderDataType) => o.Gender === 'female').length
   const url = selectedCity ? `https://gendered-toponyms.mustafasaifee.com/?city=${selectedCity}` : 'https://gendered-toponyms.mustafasaifee.com';
   const quote = selectedCity ?
-    `There are ${maleCount + femaleCount} epynomous streets in ${city} (total streets: ${gender.length}), out of which ${maleCount} streets named after males and ${femaleCount} streets named after females. Gendered Toponyms: Mapping gender imbalance in city street names by @mustafasaifee42.` :
+    `Out of  ${maleCount + femaleCount} epynomous streets in #${city}, ${maleCount} are named after males and ${femaleCount} are named after females. Gendered Toponyms by @mustafasaifee42.` :
     'Gendered Toponyms: Mapping gender imbalance in city street names by @mustafasaifee42.';
   return (
     <TwitterShareButton url={url} title={quote}>
