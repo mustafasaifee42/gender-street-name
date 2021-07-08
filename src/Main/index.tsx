@@ -181,7 +181,7 @@ function Main() {
             <ToggleButton click={() => { setDarkMode(!darkMode) }} selected={darkMode} />
           </ModeDiv>
           <ModeDiv>
-            <a href="./gendered-toponyms.pdf" target="_blank" rel="noopener noreferrer">
+            <a href="./gendered-toponym.pdf" target="_blank" rel="noopener noreferrer">
               <NavLabel darkMode={darkMode}>Posters</NavLabel>
             </a>
           </ModeDiv>
