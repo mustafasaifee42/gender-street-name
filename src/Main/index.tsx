@@ -112,8 +112,36 @@ const CityTags = styled.div<CityTagProps>`
 
 const ModalContent = styled.div`
   overflow: auto;
+  padding: 0 20px;
   max-height: calc(90vh - 88px);
 `
+
+const ModalHeading = styled.div`
+  padding: 1px 20px;    
+  margin: -20px 0 0 0;
+  background-color: var(--very-light-gray);
+`
+
+const SpaceDiv = styled.div`
+  margin: 20px 0;
+`
+
+const HR = styled.hr`
+  margin: 20px 0;
+  border: 1px solid var(--light-gray);
+  shape-rendering: crisp-edges;
+`
+
+const H3 = styled.h3`
+  margin: 10px 0;
+  @media (max-width: 600px) {
+    font-size: 24px;
+  }
+  @media (max-width: 420px) {
+    font-size: 20px;
+  }
+`
+
 const useQuery = () => {
   const location = useLocation();
   return new URLSearchParams(location.search);
@@ -219,11 +247,14 @@ function Main() {
         onRequestClose={closeModal}
         contentLabel="About Modal"
         ariaHideApp={false}
-        className={darkMode ? 'modal-dark-mode' : 'modal-light-mode'}
-        overlayClassName={darkMode ? 'overlay-dark-mode' : 'overlay-light-mode'}
+        className={'modal'}
+        overlayClassName={'overlay'}
       >
-        <h2>Gendered<span className="thin">Toponyms</span></h2>
+        <ModalHeading>
+          <h2>Gendered<span className="thin">Toponyms</span></h2>
+        </ModalHeading>
         <ModalContent>
+          <SpaceDiv />
           Places and streets names define how a person interacts with a city. Often they are named after important personalities, gods, and goddesses. The project aims to study and visualize the distribution of gender in eponymous streets.
           <br />
           <br />
@@ -246,10 +277,8 @@ function Main() {
           <br />
           <span className="italics">The source code of the visualization can be found on <a href="https://github.com/mustafasaifee42/gender-street-name" target="_blank" rel="noopener noreferrer">Github</a></span>
           <br />
-          <br />
-          <hr />
-          <br />
-          <h3>Methodology</h3>
+          <HR />
+          <H3>Methodology</H3>
           To get all the streets in a particular city, open data from OpenStreetMap is used.
           <br />
           <br />
@@ -262,25 +291,21 @@ function Main() {
           <br />
           Numbers, special characters, keywords like tie, katu, kuja, väg (for Helsinki), etc. are first removed from the Finnish and Swedish names of streets. Then the parsed Finnish names and Swedish names of streets are compared, and if the street names matched we assumed that the street is named after a proper noun. This helps in reducing the number of street names to be checked and then these streets are tagged manually using data from Helsingin Kadunnimet (a book about the history of street names in Helsinki). <span className="italics">Dataset for Helsinki can be found <a href="https://github.com/mustafasaifee42/gender-street-name/blob/main/public/data/Helsinki/mapData.json" target="_blank" rel="noopener noreferrer">here</a>.</span>
           <br />
-          <br />
-          <hr />
-          <br />
-          <h3>Similar Projects</h3>
+          <HR />
+          <H3>Similar Projects</H3>
           <a href="https://equalstreetnames.org/" target="_blank" rel="noopener noreferrer">EqualStreetNames</a>
           <br />
           <a href="https://labs.mapbox.com/bites/00190" target="_blank" rel="noopener noreferrer">Street and Gender by MapBox</a>
           <br />
-          <br />
-          <hr />
-          <br />
-          <h3>Made By</h3>
+          <HR />
+          <H3>Made By</H3>
           This project was created by <a href="https://mustafasaifee.com" target='_blank' rel="noopener noreferrer" >Mustafa Saifee</a> in Helsinki. Please email me at <a href="mailto:saifee.mustafa@gmail.com" target="_blank" rel="noopener noreferrer">saifee.mustafa@gmail.com</a> or connect on <a href="https://twitter.com/mustafasaifee42" target="_blank" rel="noopener noreferrer">twitter</a> for corrections, suggestions for features and citites or queries. For other such projects: visit <a href="https://mustafasaifee.com/" target="_blank" rel="noopener noreferrer">www.mustafasaifee.com</a>
           <br />
-          <br />
-          <hr />
-          <br />
+          <HR />
           <h4>Privacy Policy</h4>
           This website does not save any information about you. We do not directly use cookies or other tracking technologies. We do, however, use Google Analytics for mere statistical reasons. It is possible that Google Analytics sets cookies or uses other tracking technologies, but this data is not directly accessible by us.
+          <br />
+          <br />
         </ModalContent>
       </Modal>
     </>

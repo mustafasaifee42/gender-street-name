@@ -2,13 +2,14 @@
 import styled from 'styled-components';
 import _ from 'lodash';
 import { COLORFORFEMALE, COLORFORMALE, NEUTRALCOLORONWHITE, NEUTRALCOLORONBLACK, TOPPADDING } from '../Constants';
-import { AboutIconWOHover } from '../Components/Icons';
+import { AboutIconWOHover, ListIcon } from '../Components/Icons';
 import Loader from "react-loader-spinner";
 import citySettings from '../data/citySettings.json';
 import { RoadDataType, GenderDataType, CitySettingsDataType } from '../DataTypes';
 import { MapVis, SplitMap } from '../MapVis';
 import ReactTooltip from "react-tooltip";
 import { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 
 interface Props {
   darkMode: boolean;
@@ -97,12 +98,64 @@ const InfoBox = styled.div<DarkMode>`
   }
 `
 
+const DataIcon = styled.div<DarkMode>`
+  background-color: ${props => props.darkMode ? 'rgba(255,255,255,0.1)' : 'var(--light-gray)'};
+  color: ${props => props.darkMode ? 'var(--white)' : 'var(--black)'};
+  position: fixed;
+  z-index: 1000;
+  right: 10px;
+  bottom: 100px;
+  padding: 5px;
+  cursor: pointer;
+`
+const ModalContent = styled.div`
+  overflow: auto;
+  padding: 0 20px;
+  max-height: calc(90vh - 88px);
+`
+
+const NameList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
+
+const NameTag = styled.div`
+  padding: 0 10px;
+  border-radius: 2px;
+  margin: 0 10px 10px 0;
+  background-color: var(--light-gray);
+`
+
+const HR = styled.hr`
+  margin: 20px 0;
+  border: 1px solid var(--light-gray);
+  shape-rendering: crisp-edges;
+`
+
+const H3Body = styled.h3`
+  margin: 10px 0;
+  @media (max-width: 600px) {
+    font-size: 24px;
+  }
+  @media (max-width: 420px) {
+    font-size: 20px;
+  }
+`
+
+
+const ModalHeading = styled.div`
+  padding: 1px 20px;    
+  margin: -20px 0 0 0;
+  background-color: var(--very-light-gray);
+`
+
 const CityMap = (props: Props) => {
   const { darkMode, splitMap, queryParameter } = props;
-  let [loading, setLoading] = useState(true);
-  let [data, setData] = useState<RoadDataType[] | undefined>(undefined);
-  let [gender, setGender] = useState<GenderDataType[] | undefined>(undefined);
-  let [selectedCitySettings, setSelectedCitySettings] = useState<CitySettingsDataType>(_.filter(citySettings, (o: CitySettingsDataType) => o.city === "Mumbai, IN")[0] as CitySettingsDataType);
+  const [showData, setShowData] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<RoadDataType[] | undefined>(undefined);
+  const [gender, setGender] = useState<GenderDataType[] | undefined>(undefined);
+  const [selectedCitySettings, setSelectedCitySettings] = useState<CitySettingsDataType>(_.filter(citySettings, (o: CitySettingsDataType) => o.city === "Mumbai, IN")[0] as CitySettingsDataType);
   useEffect(() => {
     let directory = 'Mumbai';
     setLoading(true);
@@ -119,18 +172,16 @@ const CityMap = (props: Props) => {
       default:
         directory = "Mumbai";
     }
-    fetch(`./data/${directory}/mapData.json`
-      , {
+    fetch(`./data/${directory}/mapData.json`,
+      {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         }
       }
     )
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (jsonData) {
+      .then((response) => response.json())
+      .then((jsonData) => {
         switch (queryParameter) {
           case 'delhi-in':
             setSelectedCitySettings(_.filter(citySettings, (o: CitySettingsDataType) => o.city === "Delhi, IN")[0] as CitySettingsDataType)
@@ -147,9 +198,7 @@ const CityMap = (props: Props) => {
         setLoading(false)
         setData(jsonData.elements as RoadDataType[])
         setGender(jsonData.genderData as GenderDataType[])
-
       });
-
   }, [queryParameter])
   return (
     <>
@@ -216,6 +265,9 @@ const CityMap = (props: Props) => {
               darkMode={darkMode}
             />
           }
+          <DataIcon darkMode={darkMode} onClick={() => { setShowData(true) }}>
+            <ListIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
+          </DataIcon>
           <InfoBox darkMode={darkMode}>
             Scroll {'&'} drag to pan {'&'} zoom and hover to see details
           </InfoBox>
@@ -239,6 +291,47 @@ const CityMap = (props: Props) => {
               <TooltipText>Also include the street that uses initials for first and middle name or uses just the last name or the name is unisex and cannot be determined if the name belong to a male or female.</TooltipText>
             </TooltipDiv>
           </ReactTooltip>
+
+          <Modal
+            isOpen={showData}
+            onRequestClose={() => { setShowData(false) }}
+            contentLabel="Data Modal"
+            ariaHideApp={false}
+            className={'modal'}
+            overlayClassName={'overlay'}
+          >
+            <ModalHeading>
+              <h2>
+                {
+                  queryParameter === "delhi-in" ? "Delhi, IN" :
+                    queryParameter === "helsinki-fi" ? "Helsinki, FI" :
+                      "Mumbai, IN"
+                }
+              </h2>
+            </ModalHeading>
+            <ModalContent>
+              <H3Body className="bold">Streets Named After Females ({_.filter(gender, (o: GenderDataType) => o.Gender === 'female').length})</H3Body>
+              <NameList>
+                {
+                  _.filter(gender, (o: GenderDataType) => o.Gender === 'female').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                }
+              </NameList>
+              <HR />
+              <H3Body className="bold">Streets Named After Males ({_.filter(gender, (o: GenderDataType) => o.Gender === 'male').length})</H3Body>
+              <NameList>
+                {
+                  _.filter(gender, (o: GenderDataType) => o.Gender === 'male').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                }
+              </NameList>
+              <HR />
+              <H3Body className="bold">Ungendered Street Names ({_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').length})</H3Body>
+              <NameList>
+                {
+                  _.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                }
+              </NameList>
+            </ModalContent>
+          </Modal>
         </> :
         <LoaderDiv>
           <Loader

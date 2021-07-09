@@ -68,3 +68,20 @@ export const ShareIcon = (props: IconProps) => {
     </IconEl>
   )
 }
+
+export const ListIcon = (props: IconProps) => {
+  const { size, fill } = props;
+  return (
+    <IconEl height={size}>
+      <svg width={size ? size : 24} height={size ? size : 24} viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill={fill ? fill : '#2c2c2c'} d="M492,236H144.262c-11.046,0-20,8.954-20,20s8.954,20,20,20H492c11.046,0,20-8.954,20-20C512,244.954,503.046,236,492,236z" />
+        <path fill={fill ? fill : '#2c2c2c'} d="M492,86H144.262c-11.046,0-20,8.954-20,20s8.954,20,20,20H492c11.046,0,20-8.954,20-20S503.046,86,492,86z" />
+        <path fill={fill ? fill : '#2c2c2c'} d="M492,386H144.262c-11.046,0-20,8.954-20,20c0,11.046,8.954,20,20,20H492c11.046,0,20-8.954,20-20
+          C512,394.954,503.046,386,492,386z"/>
+        <circle fill={fill ? fill : '#2c2c2c'} cx="27" cy="106" r="27" />
+        <circle fill={fill ? fill : '#2c2c2c'} cx="27" cy="256" r="27" />
+        <circle fill={fill ? fill : '#2c2c2c'} cx="27" cy="406" r="27" />
+      </svg>
+    </IconEl>
+  )
+}

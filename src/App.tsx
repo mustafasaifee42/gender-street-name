@@ -139,41 +139,21 @@ const GlobalStyle = createGlobalStyle`
     z-index: 10000;
   }
 
-  .modal-dark-mode {
-    width: 90vw;
-    max-width: 960px;
-    margin: auto;
-    background-color: var(--black);
-    border: 0 !important;
-    padding: 0 20px 20px 20px;
-    box-shadow: 0 2px 5px rgba(12,13,14,0.05);
-    color: var(--white);
-    max-height: 90vh;
-  }
-
-  .modal-light-mode {
+  .modal {
     width: 90vw;
     max-height: 90vh;
     max-width: 960px;
     margin: auto;
     background-color: var(--white);
     border: 0 !important;
-    padding: 0 20px 20px 20px;
+    padding: 0;
     box-shadow: 0 2px 5px rgba(12,13,14,0.05);
     color: var(--black);
+    &:focus {
+      outline: none;
+    }
   }
-
-  .overlay-dark-mode {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.85);
-    display: flex;
-    align-items: center;
-  }
-  .overlay-light-mode {
+  .overlay {
     position: fixed;
     top: 0;
     left: 0;
