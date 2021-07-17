@@ -61,5 +61,26 @@
       ],
       "mapScale": 42000
     }
+  },
+  {
+    "city": "Berlin, DE",
+    "splitMapData": {
+      "width": 410,
+      "height": 325,
+      "translate": [
+        -7998.64231015977,
+        37984.392302178203
+      ],
+      "mapScale": 35000
+    },
+    "combinedMapData": {
+      "width": 410,
+      "height": 325,
+      "translate": [
+        -7998.64231015977,
+        37984.392302178203
+      ],
+      "mapScale": 35000
+    }
   }
 ]

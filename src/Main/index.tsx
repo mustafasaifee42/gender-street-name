@@ -162,6 +162,9 @@ function Main() {
     case 'helsinki-fi':
       selectedCity = "Helsinki, FI";
       break;
+    case 'berlin-de':
+      selectedCity = "Berlin, DE";
+      break;
     default:
       selectedCity = "Mumbai, IN";
   }
@@ -177,6 +180,10 @@ function Main() {
     {
       cityName: 'Helsinki, FI',
       id: "helsinki-fi",
+    },
+    {
+      cityName: 'Berlin, DE',
+      id: "berlin-de",
     }
   ];
 
@@ -207,11 +214,6 @@ function Main() {
           <ModeDiv>
             <DarkModeIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
             <ToggleButton click={() => { setDarkMode(!darkMode) }} selected={darkMode} />
-          </ModeDiv>
-          <ModeDiv>
-            <a href="./gendered-toponym.pdf" target="_blank" rel="noopener noreferrer">
-              <NavLabel darkMode={darkMode}>Posters</NavLabel>
-            </a>
           </ModeDiv>
           <NavDiv onClick={() => { setIsOpen(true) }}>
             <AboutIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
@@ -258,7 +260,7 @@ function Main() {
           Places and streets names define how a person interacts with a city. Often they are named after important personalities, gods, and goddesses. The project aims to study and visualize the distribution of gender in eponymous streets.
           <br />
           <br />
-          The project currently visualizes the streets in Delhi(IN), Mumbai(IN) and Helsinki(FI).
+          The project currently visualizes the streets in Delhi(IN), Mumbai(IN), Helsinki(FI) and Berlin(DE).
           <br />
           <br />
           <span className="bold">Data</span>
@@ -273,6 +275,9 @@ function Main() {
           <br />
           <br />
           If the street is called something that can be a name and is also a common word in the language and if no proof can be found that the street is named after a human then that street is tagged ungendered. For ex. Pragati street is tagged ungendered as although Pragati is a female name in India it also means progress in hindi.
+          <br />
+          <br />
+          For simplicity transgender males are counted as males and transgender females are counted as female. Berlin has 1 street named after transgender female which is counted as female.
           <br />
           <br />
           <span className="italics">The source code of the visualization can be found on <a href="https://github.com/mustafasaifee42/gender-street-name" target="_blank" rel="noopener noreferrer">Github</a></span>
@@ -290,6 +295,11 @@ function Main() {
           <span className="bold">Helsinki</span>
           <br />
           Numbers, special characters, keywords like tie, katu, kuja, väg (for Helsinki), etc. are first removed from the Finnish and Swedish names of streets. Then the parsed Finnish names and Swedish names of streets are compared, and if the street names matched we assumed that the street is named after a proper noun. This helps in reducing the number of street names to be checked and then these streets are tagged manually using data from Helsingin Kadunnimet (a book about the history of street names in Helsinki). <span className="italics">Dataset for Helsinki can be found <a href="https://github.com/mustafasaifee42/gender-street-name/blob/main/public/data/Helsinki/mapData.json" target="_blank" rel="noopener noreferrer">here</a>.</span>
+          <br />
+          <br />
+          <span className="bold">Berlin</span>
+          <br />
+          For Berlin we use the data from WikiData to find the gender of the people after whom the street are named after. <span className="italics">Dataset for Berlin can be found <a href="https://github.com/mustafasaifee42/gender-street-name/blob/main/public/data/Berlin/mapData.json" target="_blank" rel="noopener noreferrer">here</a>.</span>
           <br />
           <HR />
           <H3>Similar Projects</H3>

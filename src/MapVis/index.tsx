@@ -67,6 +67,8 @@ export const MapVis = (props: Props) => {
   const projection = geoMercator().scale(mapScale).translate(translate);
   const strokeWidth = window.innerWidth / width < (window.innerHeight - TOPPADDING) / height ? width / window.innerWidth : height / (window.innerHeight - TOPPADDING);
 
+  const coordinates = geoMercator().scale(mapScale)([52.5200, 13.4050]) as any
+  console.log(coordinates)
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
 
@@ -108,8 +110,8 @@ export const MapVis = (props: Props) => {
                   d={masterPath}
                   className={'streetPath'}
                   stroke={
-                    d.tags.gender === "male" ? COLORFORMALE :
-                      d.tags.gender === "female" ? COLORFORFEMALE :
+                    d.tags.gender === "male" || d.tags.gender === "transgender male" ? COLORFORMALE :
+                      d.tags.gender === "female" || d.tags.gender === "transgender female" ? COLORFORFEMALE :
                         darkMode ? NEUTRALCOLORONBLACK : NEUTRALCOLORONWHITE
                   }
                   strokeWidth={strokeWidth}
@@ -137,8 +139,8 @@ export const MapVis = (props: Props) => {
             x={tooltipPos.x}
             y={tooltipPos.y}
             fill={
-              selectedRoadGender === "male" ? COLORFORMALE :
-                selectedRoadGender === "female" ? COLORFORFEMALE :
+              selectedRoadGender === "male" || selectedRoadGender === "transgender male" ? COLORFORMALE :
+                selectedRoadGender === "female" || selectedRoadGender === "transgender female" ? COLORFORFEMALE :
                   darkMode ? 'var(--white)' : 'var(--black)'
             }
             darkMode={darkMode}
@@ -163,10 +165,8 @@ export const SplitMap = (props: Props) => {
   const [selectedRoadGender, setSelectedRoadGender] = useState<string | undefined>(undefined)
   const [tooltipPos, setTooltipPos] = useState<Position | undefined>(undefined)
   const projection = geoMercator().scale(mapScale).translate(translate);
-  /*
-  const coordinates = geoMercator().scale(mapScale)([77.1025, 28.7041]) as any
+  const coordinates = geoMercator().scale(mapScale)([52.5200, 13.4050]) as any
   console.log(coordinates)
-  */
 
   const mapMaleSvg = useRef<SVGSVGElement>(null);
   const mapMaleG = useRef<SVGGElement>(null);
@@ -205,7 +205,7 @@ export const SplitMap = (props: Props) => {
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapMaleG}>
             {
-              _.filter(data, (o: RoadDataType) => o.tags.gender === 'male').map((d: RoadDataType, i: number) => {
+              _.filter(data, (o: RoadDataType) => o.tags.gender === 'male' || o.tags.gender === 'transgender male').map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"
@@ -245,7 +245,7 @@ export const SplitMap = (props: Props) => {
           <rect x='0' y='0' width={width} height={height} style={darkMode ? { fill: 'var(--black)' } : { fill: 'var(--bg-color)' }} />
           <g ref={mapFemaleG}>
             {
-              _.filter(data, (o: RoadDataType) => o.tags.gender === 'female').map((d: RoadDataType, i: number) => {
+              _.filter(data, (o: RoadDataType) => o.tags.gender === 'female' || o.tags.gender === 'transgender female').map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"
@@ -286,7 +286,7 @@ export const SplitMap = (props: Props) => {
           <g ref={mapUngenderedG}>
             {
 
-              _.filter(data, (o: RoadDataType) => o.tags.gender !== 'female' && o.tags.gender !== 'male').map((d: RoadDataType, i: number) => {
+              _.filter(data, (o: RoadDataType) => o.tags.gender !== 'female' && o.tags.gender !== 'male' && o.tags.gender !== 'transgender female' && o.tags.gender !== 'transgender male').map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"
@@ -332,8 +332,8 @@ export const SplitMap = (props: Props) => {
             x={tooltipPos.x}
             y={tooltipPos.y}
             fill={
-              selectedRoadGender === "male" ? COLORFORMALE :
-                selectedRoadGender === "female" ? COLORFORFEMALE :
+              selectedRoadGender === "male" || selectedRoadGender === "transgender male" ? COLORFORMALE :
+                selectedRoadGender === "female" || selectedRoadGender === "transgender female" ? COLORFORFEMALE :
                   darkMode ? 'var(--white)' : 'var(--black)'
             }
             darkMode={darkMode}

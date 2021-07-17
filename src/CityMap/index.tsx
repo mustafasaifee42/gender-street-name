@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import _ from 'lodash';
 import { COLORFORFEMALE, COLORFORMALE, NEUTRALCOLORONWHITE, NEUTRALCOLORONBLACK, TOPPADDING } from '../Constants';
-import { AboutIconWOHover, ListIcon } from '../Components/Icons';
+import { AboutIconWOHover, ListIcon, ExpandIcon, CollapseIcon } from '../Components/Icons';
 import Loader from "react-loader-spinner";
 import citySettings from '../data/citySettings.json';
 import { RoadDataType, GenderDataType, CitySettingsDataType } from '../DataTypes';
@@ -83,6 +83,7 @@ const LoaderDiv = styled.div`
   justify-content: center;
 `
 
+
 const InfoBox = styled.div<DarkMode>`
   background-color: ${props => props.darkMode ? 'rgba(255,255,255,0.1)' : 'var(--light-gray)'};
   color: ${props => props.darkMode ? 'var(--white)' : 'var(--black)'};
@@ -93,18 +94,25 @@ const InfoBox = styled.div<DarkMode>`
   padding: 5px;
   font-size: 12px;
   font-style: italic;
+  max-width: 370px;
+  text-align: right; 
   @media (max-width: 600px) {
     font-size: 10px;
   }
 `
 
-const DataIcon = styled.div<DarkMode>`
+interface DataIconProps {
+  darkMode: boolean;
+  bottomPosition?: number;
+}
+
+const DataIcon = styled.div<DataIconProps>`
   background-color: ${props => props.darkMode ? 'rgba(255,255,255,0.1)' : 'var(--light-gray)'};
   color: ${props => props.darkMode ? 'var(--white)' : 'var(--black)'};
   position: fixed;
   z-index: 1000;
   right: 10px;
-  bottom: 100px;
+  bottom: ${props => props.bottomPosition ? `${props.bottomPosition}px` : '100px'};
   padding: 5px;
   cursor: pointer;
 `
@@ -115,6 +123,7 @@ const ModalContent = styled.div`
 `
 
 const NameList = styled.div`
+  margin-top: 20px; 
   display: flex;
   flex-wrap: wrap;
 `
@@ -127,13 +136,13 @@ const NameTag = styled.div`
 `
 
 const HR = styled.hr`
-  margin: 20px 0;
+  margin: 20px 0 0 0;
   border: 1px solid var(--light-gray);
   shape-rendering: crisp-edges;
 `
 
 const H3Body = styled.h3`
-  margin: 10px 0;
+  margin: 0;
   @media (max-width: 600px) {
     font-size: 24px;
   }
@@ -141,7 +150,18 @@ const H3Body = styled.h3`
     font-size: 20px;
   }
 `
+const TitleDiv = styled.div`
+  display: flex;
+  border-bottom: 1px solid var(--light-gray);
+  cursor: pointer;
+  align-items: center;
+  margin: 0;
+  padding: 10px 0;
+`
 
+const AccordionIcon = styled.div`
+  margin-right: 0;
+`
 
 const ModalHeading = styled.div`
   padding: 1px 20px;    
@@ -149,10 +169,23 @@ const ModalHeading = styled.div`
   background-color: var(--very-light-gray);
 `
 
+const Note = styled.div`
+  background-color: var(--very-light-gray);
+  border: 1px solid var(--gray);
+  font-style: italic;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 20px 0 0 0;
+`
+
 const CityMap = (props: Props) => {
   const { darkMode, splitMap, queryParameter } = props;
   const [showData, setShowData] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [femaleStreetExpanded, setFemaleStreetExpanded] = useState(true);
+  const [maleStreetExpanded, setMaleStreetExpanded] = useState(false);
+  const [ungenderedStreetExpanded, setUngenderedStreetExpanded] = useState(false);
   const [data, setData] = useState<RoadDataType[] | undefined>(undefined);
   const [gender, setGender] = useState<GenderDataType[] | undefined>(undefined);
   const [selectedCitySettings, setSelectedCitySettings] = useState<CitySettingsDataType>(_.filter(citySettings, (o: CitySettingsDataType) => o.city === "Mumbai, IN")[0] as CitySettingsDataType);
@@ -168,6 +201,9 @@ const CityMap = (props: Props) => {
         break;
       case 'helsinki-fi':
         directory = "Helsinki";
+        break;
+      case 'berlin-de':
+        directory = "Berlin";
         break;
       default:
         directory = "Mumbai";
@@ -192,6 +228,9 @@ const CityMap = (props: Props) => {
           case 'helsinki-fi':
             setSelectedCitySettings(_.filter(citySettings, (o: CitySettingsDataType) => o.city === "Helsinki, FI")[0] as CitySettingsDataType)
             break;
+          case 'berlin-de':
+            setSelectedCitySettings(_.filter(citySettings, (o: CitySettingsDataType) => o.city === "Berlin, DE")[0] as CitySettingsDataType)
+            break;
           default:
             setSelectedCitySettings(_.filter(citySettings, (o: CitySettingsDataType) => o.city === "Mumbai, IN")[0] as CitySettingsDataType)
         }
@@ -213,9 +252,9 @@ const CityMap = (props: Props) => {
                 </InfoIconEl>
               </HeadingDiv>
               <H3>
-                {_.filter(gender, (o: GenderDataType) => o.Gender === 'male').length} <PercentValue>(
+                {_.filter(gender, (o: GenderDataType) => o.Gender === 'male' || o.Gender === 'transgender male').length} <PercentValue>(
                   {
-                    (_.filter(gender, (o: GenderDataType) => o.Gender === 'male').length * 100 / gender.length).toFixed(1)
+                    (_.filter(gender, (o: GenderDataType) => o.Gender === 'male' || o.Gender === 'transgender male').length * 100 / gender.length).toFixed(1)
                   }%)</PercentValue>
               </H3>
             </div>
@@ -227,9 +266,9 @@ const CityMap = (props: Props) => {
                 </InfoIconEl>
               </HeadingDiv>
               <H3>
-                {_.filter(gender, (o: GenderDataType) => o.Gender === 'female').length} <PercentValue>(
+                {_.filter(gender, (o: GenderDataType) => o.Gender === 'female' || o.Gender === 'transgender female').length} <PercentValue>(
                   {
-                    (_.filter(gender, (o: GenderDataType) => o.Gender === 'female').length * 100 / gender.length).toFixed(1)
+                    (_.filter(gender, (o: GenderDataType) => o.Gender === 'female' || o.Gender === 'transgender female').length * 100 / gender.length).toFixed(1)
                   }%)</PercentValue>
               </H3>
             </div>
@@ -241,9 +280,9 @@ const CityMap = (props: Props) => {
                 </InfoIconEl>
               </HeadingDiv>
               <H3>
-                {_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').length} <PercentValue>(
+                {_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female').length} <PercentValue>(
                   {
-                    (_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').length * 100 / gender.length).toFixed(1)
+                    (_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female').length * 100 / gender.length).toFixed(1)
                   }%)</PercentValue>
               </H3>
             </div>
@@ -265,16 +304,24 @@ const CityMap = (props: Props) => {
               darkMode={darkMode}
             />
           }
-          <DataIcon darkMode={darkMode} onClick={() => { setShowData(true) }}>
+          <DataIcon bottomPosition={queryParameter === "berlin-de" ? 150 : 100} darkMode={darkMode} onClick={() => { setShowData(true) }}>
             <ListIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
           </DataIcon>
           <InfoBox darkMode={darkMode}>
+            {
+              queryParameter === "berlin-de" ?
+                <>
+                  Charlotte-Von-Mahlsdorf-Ring is named after transgender female which is counted as female
+                  <br />
+                </> : null
+            }
             Scroll {'&'} drag to pan {'&'} zoom and hover to see details
           </InfoBox>
           <ReactTooltip place="bottom" type={darkMode ? 'dark' : 'light'} effect="solid" id='maleTooltip'>
             <TooltipDiv>
               <TooltipText>Show the number of streets named after male human or male mythological/fictional characters.</TooltipText>
               <TooltipText>Also includes streets named after a landmark which was named after a male human or male mythological/fictional characters.</TooltipText>
+              <TooltipText>Also includes streets named after transgender males.</TooltipText>
               <TooltipText>Does not include the street that uses initials for first and middle name or uses just the last name and it cannot be determined if the name belong to a male.</TooltipText>
             </TooltipDiv>
           </ReactTooltip>
@@ -282,6 +329,7 @@ const CityMap = (props: Props) => {
             <TooltipDiv>
               <TooltipText>Show the number of streets named after female human or female mythological/fictional characters.</TooltipText>
               <TooltipText>Also includes streets named after a landmark which was named after a female human or female mythological/fictional characters.</TooltipText>
+              <TooltipText>Also includes streets named after transgender females.</TooltipText>
               <TooltipText>Does not include the street that uses initials for first and middle name or uses just the last name and it cannot be determined if the name belong to a female.</TooltipText>
             </TooltipDiv>
           </ReactTooltip>
@@ -294,7 +342,7 @@ const CityMap = (props: Props) => {
 
           <Modal
             isOpen={showData}
-            onRequestClose={() => { setShowData(false) }}
+            onRequestClose={() => { setShowData(false); setFemaleStreetExpanded(true); setMaleStreetExpanded(false); setUngenderedStreetExpanded(false) }}
             contentLabel="Data Modal"
             ariaHideApp={false}
             className={'modal'}
@@ -305,31 +353,80 @@ const CityMap = (props: Props) => {
                 {
                   queryParameter === "delhi-in" ? "Delhi, IN" :
                     queryParameter === "helsinki-fi" ? "Helsinki, FI" :
-                      "Mumbai, IN"
+                      queryParameter === "berlin-de" ? "Berlin, DE" :
+                        "Mumbai, IN"
                 }
               </h2>
             </ModalHeading>
             <ModalContent>
-              <H3Body className="bold">Streets Named After Females ({_.filter(gender, (o: GenderDataType) => o.Gender === 'female').length})</H3Body>
-              <NameList>
+              <TitleDiv onClick={() => { setFemaleStreetExpanded(!femaleStreetExpanded) }}>
                 {
-                  _.filter(gender, (o: GenderDataType) => o.Gender === 'female').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                  femaleStreetExpanded ?
+                    <AccordionIcon >
+                      <CollapseIcon size={24} fill={'#999999'} />
+                    </AccordionIcon> :
+                    <AccordionIcon>
+                      <ExpandIcon size={24} fill={'#999999'} />
+                    </AccordionIcon>
                 }
-              </NameList>
-              <HR />
-              <H3Body className="bold">Streets Named After Males ({_.filter(gender, (o: GenderDataType) => o.Gender === 'male').length})</H3Body>
-              <NameList>
+                <H3Body className="bold">Streets Named After Females ({_.filter(gender, (o: GenderDataType) => o.Gender === 'female' || o.Gender === 'transgender female').length})</H3Body>
+              </TitleDiv>
+              {
+                femaleStreetExpanded ? <>
+                  {
+                    queryParameter === "berlin-de" ? <Note>Charlotte-Von-Mahlsdorf-Ring in Berlin is named after transgender female</Note> : null
+                  }
+                  <NameList>
+                    {
+                      _.filter(gender, (o: GenderDataType) => o.Gender === 'female' || o.Gender === 'transgender female').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                    }
+                  </NameList>
+                  <HR />
+                </> : null
+              }
+              <TitleDiv onClick={() => { setMaleStreetExpanded(!maleStreetExpanded) }}>
                 {
-                  _.filter(gender, (o: GenderDataType) => o.Gender === 'male').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                  maleStreetExpanded ?
+                    <AccordionIcon >
+                      <CollapseIcon size={24} fill={'#999999'} />
+                    </AccordionIcon> :
+                    <AccordionIcon>
+                      <ExpandIcon size={24} fill={'#999999'} />
+                    </AccordionIcon>
                 }
-              </NameList>
-              <HR />
-              <H3Body className="bold">Ungendered Street Names ({_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').length})</H3Body>
-              <NameList>
+                <H3Body className="bold">Streets Named After Males ({_.filter(gender, (o: GenderDataType) => o.Gender === 'male' || o.Gender === 'transgender male').length})</H3Body>
+              </TitleDiv>
+              {
+                maleStreetExpanded ? <>
+                  <NameList>
+                    {
+                      _.filter(gender, (o: GenderDataType) => o.Gender === 'male' || o.Gender === 'transgender male').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                    }
+                  </NameList>
+                  <HR />
+                </> : null
+              }
+              <TitleDiv onClick={() => { setUngenderedStreetExpanded(!ungenderedStreetExpanded) }}>
                 {
-                  _.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                  ungenderedStreetExpanded ?
+                    <AccordionIcon >
+                      <CollapseIcon size={24} fill={'#999999'} />
+                    </AccordionIcon> :
+                    <AccordionIcon>
+                      <ExpandIcon size={24} fill={'#999999'} />
+                    </AccordionIcon>
                 }
-              </NameList>
+                <H3Body className="bold">Ungendered Street Names ({_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female').length})</H3Body>
+              </TitleDiv>
+              {
+                ungenderedStreetExpanded ? <>
+                  <NameList>
+                    {
+                      _.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                    }
+                  </NameList>
+                </> : null
+              }
             </ModalContent>
           </Modal>
         </> :
