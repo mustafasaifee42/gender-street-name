@@ -55,16 +55,6 @@ const Label = styled.div`
   font-style: normal;
 `;
 
-const NavLabel = styled.div<Mode>`
-  margin: 0;
-  font-style: normal;
-  color: ${props => props.darkMode ? 'var(--white)' : 'var(--black)'};
-  &:hover {
-    color: var(--primary-color);
-    font-weight: normal;
-  }
-`;
-
 const SettingsDiv = styled.div`
   display: flex;
   align-items: center;
