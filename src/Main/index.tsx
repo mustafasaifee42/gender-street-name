@@ -258,10 +258,10 @@ function Main() {
           Currently, the data only focuses on the binary gender distribution because of the way the data is collected; since we are using names to identify if a street is named after a particular gender.
           <br />
           <br />
-          Also, note the if a street is named after a landmark or building and that landmark is named after a gender; the street is tagged to be named after that gender. For ex. if a street name is St. Johns Church street; it is taggeded as named after a male as the street is named after St. John Church which is named after a male.
+          If a street is named after a landmark or building and that landmark is named after a gender; the street is tagged to be named after that gender. For ex. if a street name is St. Johns Church street; it is taggeded as named after a male as the street is named after St. John Church which is named after a male. If the street is named after a male or female given name than also street  is tagged to be named after a gender.
           <br />
           <br />
-          If a street is named after last or family name or has only initials for first and middlle name then the street is tagged as ungendered if no information could be found to categorize the name as male or female. For ex. KN Gaikwad Marg is tagged ungendered as no information was available for what KN stands for; even though the street is clearly named after a human.
+          If a street is named after last or family name or has only initials for first and middlle name then the street is tagged as ungendered if no information could be found to categorize the name as male or female. For ex. KN Gaikwad Marg is tagged ungendered as no information was available for what KN stands for; even though the street is clearly named after a human. If the street is named after multiple people of differnt genders than the street is also considered ungendered.
           <br />
           <br />
           If the street is called something that can be a name and is also a common word in the language and if no proof can be found that the street is named after a human then that street is tagged ungendered. For ex. Pragati street is tagged ungendered as although Pragati is a female name in India it also means progress in hindi.
