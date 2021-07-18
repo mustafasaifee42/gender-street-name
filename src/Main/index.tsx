@@ -11,10 +11,6 @@ import {
   useLocation
 } from "react-router-dom";
 
-interface Mode {
-  darkMode: boolean;
-}
-
 const BodyArea = styled.div`
   min-height: calc(100vh - ${HEADERHEIGHT}px);
   margin-top: ${HEADERHEIGHT}px;
