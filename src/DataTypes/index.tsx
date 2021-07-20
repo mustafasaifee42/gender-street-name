@@ -30,3 +30,13 @@ export interface CitySettingsDataType {
   splitMapData: MapDataType;
   combinedMapData: MapDataType;
 }
+
+export interface CityDataType {
+  city: string;
+  maleStreets: number;
+  femaleStreets: number;
+  ungendered: number;
+  unknown: number;
+  total: number;
+}
+

@@ -67,12 +67,12 @@ const PercentValue = styled.span`
 `
 
 const H3 = styled.h3`
-  line-height: 32px;
+  line-height: 1;
   @media (max-width: 600px) {
     font-size: 24px;
   }
   @media (max-width: 420px) {
-    font-size: 20px;
+    font-size: 16px;
   }
 `;
 
@@ -185,6 +185,7 @@ const CityMap = (props: Props) => {
   const [loading, setLoading] = useState(true);
   const [femaleStreetExpanded, setFemaleStreetExpanded] = useState(true);
   const [maleStreetExpanded, setMaleStreetExpanded] = useState(false);
+  const [unknownStreetExpanded, setUnknownStreetExpanded] = useState(false);
   const [ungenderedStreetExpanded, setUngenderedStreetExpanded] = useState(false);
   const [data, setData] = useState<RoadDataType[] | undefined>(undefined);
   const [gender, setGender] = useState<GenderDataType[] | undefined>(undefined);
@@ -246,7 +247,7 @@ const CityMap = (props: Props) => {
           <BodyHeader>
             <div style={{ color: COLORFORMALE }}>
               <HeadingDiv>
-                <h4>Male Names</h4>
+                <h4>Male</h4>
                 <InfoIconEl data-tip data-for='maleTooltip'>
                   <AboutIconWOHover size={16} fill={darkMode ? '#999999' : '#AAAAAA'} />
                 </InfoIconEl>
@@ -260,7 +261,7 @@ const CityMap = (props: Props) => {
             </div>
             <div style={{ color: COLORFORFEMALE }}>
               <HeadingDiv>
-                <h4>Female Names</h4>
+                <h4>Female</h4>
                 <InfoIconEl data-tip data-for='femaleTooltip'>
                   <AboutIconWOHover size={16} fill={darkMode ? '#999999' : '#AAAAAA'} />
                 </InfoIconEl>
@@ -272,9 +273,26 @@ const CityMap = (props: Props) => {
                   }%)</PercentValue>
               </H3>
             </div>
+            {
+              queryParameter !== "berlin-de" && queryParameter !== "helsinki-fi" ?
+                <div style={darkMode ? { color: NEUTRALCOLORONBLACK } : { color: NEUTRALCOLORONWHITE }}>
+                  <HeadingDiv>
+                    <h4>Unknown</h4>
+                    <InfoIconEl data-tip data-for='unknownTooltip'>
+                      <AboutIconWOHover size={16} fill={darkMode ? '#999999' : '#AAAAAA'} />
+                    </InfoIconEl>
+                  </HeadingDiv>
+                  <H3>
+                    {_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').length} <PercentValue>(
+                      {
+                        (_.filter(gender, (o: GenderDataType) => o.Gender !== 'unknown').length * 100 / gender.length).toFixed(1)
+                      }%)</PercentValue>
+                  </H3>
+                </div> : null
+            }
             <div style={darkMode ? { color: NEUTRALCOLORONBLACK } : { color: NEUTRALCOLORONWHITE }}>
               <HeadingDiv>
-                <h4>Ungendered Names</h4>
+                <h4>Ungendered</h4>
                 <InfoIconEl data-tip data-for='ungenderedTooltip'>
                   <AboutIconWOHover size={16} fill={darkMode ? '#999999' : '#AAAAAA'} />
                 </InfoIconEl>
@@ -304,7 +322,7 @@ const CityMap = (props: Props) => {
               darkMode={darkMode}
             />
           }
-          <DataIcon bottomPosition={queryParameter === "berlin-de" ? 150 : 100} darkMode={darkMode} onClick={() => { setShowData(true) }}>
+          <DataIcon bottomPosition={queryParameter !== "helsinki-fi" ? 150 : 100} darkMode={darkMode} onClick={() => { setShowData(true) }}>
             <ListIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
           </DataIcon>
           <InfoBox darkMode={darkMode}>
@@ -313,7 +331,12 @@ const CityMap = (props: Props) => {
                 <>
                   Charlotte-Von-Mahlsdorf-Ring is named after transgender female which is counted as female
                   <br />
-                </> : null
+                </> :
+                queryParameter !== "berlin-de" && queryParameter !== "helsinki-fi" ?
+                  <>
+                    Gender of <span className="bold">{_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').length}</span> epynomous streets can't be determined.
+                    <br />
+                  </> : null
             }
             Scroll {'&'} drag to pan {'&'} zoom and hover to see details
           </InfoBox>
@@ -333,16 +356,23 @@ const CityMap = (props: Props) => {
               <TooltipText>Does not include the street that uses initials for first and middle name or uses just the last name and it cannot be determined if the name belong to a female.</TooltipText>
             </TooltipDiv>
           </ReactTooltip>
+          {
+            queryParameter !== "helsinki-fi" && queryParameter !== "berlin-de" ?
+              <ReactTooltip place="bottom" type={darkMode ? 'dark' : 'light'} effect="solid" id='unknownTooltip'>
+                <TooltipDiv>
+                  <TooltipText>Includes the street that uses initials for first and middle name or uses just the last name or the name is unisex and cannot be determined if the name belong to a male or female.</TooltipText>
+                </TooltipDiv>
+              </ReactTooltip> : null
+          }
           <ReactTooltip place="bottom" type={darkMode ? 'dark' : 'light'} effect="solid" id='ungenderedTooltip'>
             <TooltipDiv>
               <TooltipText>Show the number of streets that are not named after humans.</TooltipText>
-              <TooltipText>Also include the street that uses initials for first and middle name or uses just the last name or the name is unisex and cannot be determined if the name belong to a male or female.</TooltipText>
             </TooltipDiv>
           </ReactTooltip>
 
           <Modal
             isOpen={showData}
-            onRequestClose={() => { setShowData(false); setFemaleStreetExpanded(true); setMaleStreetExpanded(false); setUngenderedStreetExpanded(false) }}
+            onRequestClose={() => { setShowData(false); setFemaleStreetExpanded(true); setMaleStreetExpanded(false); setUngenderedStreetExpanded(false); setUnknownStreetExpanded(false) }}
             contentLabel="Data Modal"
             ariaHideApp={false}
             className={'modal'}
@@ -401,6 +431,28 @@ const CityMap = (props: Props) => {
                   <NameList>
                     {
                       _.filter(gender, (o: GenderDataType) => o.Gender === 'male' || o.Gender === 'transgender male').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                    }
+                  </NameList>
+                  <HR />
+                </> : null
+              }
+              <TitleDiv onClick={() => { setUnknownStreetExpanded(!unknownStreetExpanded) }}>
+                {
+                  unknownStreetExpanded ?
+                    <AccordionIcon >
+                      <CollapseIcon size={24} fill={'#999999'} />
+                    </AccordionIcon> :
+                    <AccordionIcon>
+                      <ExpandIcon size={24} fill={'#999999'} />
+                    </AccordionIcon>
+                }
+                <H3Body className="bold">Streets Named After People But Gender Undertermined ({_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').length})</H3Body>
+              </TitleDiv>
+              {
+                unknownStreetExpanded ? <>
+                  <NameList>
+                    {
+                      _.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
                     }
                   </NameList>
                   <HR />

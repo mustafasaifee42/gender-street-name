@@ -8,4 +8,4 @@ export const NEUTRALCOLORONBLACK = '#444444';
 
 export const HEADERHEIGHT = 80;
 
-export const TOPPADDING = 230;
+export const TOPPADDING = 215;

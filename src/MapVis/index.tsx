@@ -67,8 +67,6 @@ export const MapVis = (props: Props) => {
   const projection = geoMercator().scale(mapScale).translate(translate);
   const strokeWidth = window.innerWidth / width < (window.innerHeight - TOPPADDING) / height ? width / window.innerWidth : height / (window.innerHeight - TOPPADDING);
 
-  const coordinates = geoMercator().scale(mapScale)([52.5200, 13.4050]) as any
-  console.log(coordinates)
   const mapSvg = useRef<SVGSVGElement>(null);
   const mapG = useRef<SVGGElement>(null);
 
@@ -165,9 +163,10 @@ export const SplitMap = (props: Props) => {
   const [selectedRoadGender, setSelectedRoadGender] = useState<string | undefined>(undefined)
   const [tooltipPos, setTooltipPos] = useState<Position | undefined>(undefined)
   const projection = geoMercator().scale(mapScale).translate(translate);
+  /*
   const coordinates = geoMercator().scale(mapScale)([52.5200, 13.4050]) as any
   console.log(coordinates)
-
+  */
   const mapMaleSvg = useRef<SVGSVGElement>(null);
   const mapMaleG = useRef<SVGGElement>(null);
   const mapFemaleSvg = useRef<SVGSVGElement>(null);

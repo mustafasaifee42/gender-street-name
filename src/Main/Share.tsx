@@ -1,10 +1,7 @@
 
 import { TwitterShareButton, TwitterIcon } from 'react-share';
-import mumbaiGenderData from '../data/Mumbai/genderData.json';
-import delhiGenderData from '../data/Delhi/genderData.json';
-import helsinkiGenderData from '../data/Helsinki/genderData.json';
-import berlinGenderData from '../data/Berlin/genderData.json';
-import { GenderDataType } from '../DataTypes';
+import cityData from '../data/cityData.json';
+import { CityDataType } from '../DataTypes';
 import _ from 'lodash';
 
 interface Props {
@@ -15,36 +12,31 @@ interface Props {
 const ShareEl = (props: Props) => {
   const { darkMode, selectedCity } = props;
   let city = 'Mumbai';
-  let gender = mumbaiGenderData as GenderDataType[];
   switch (selectedCity) {
     case 'delhi-in':
-      gender = delhiGenderData as GenderDataType[];
       city = "Delhi";
       break;
     case 'mumbai-in':
-      gender = mumbaiGenderData as GenderDataType[];
       city = "Mumbai";
       break;
     case 'helsinki-fi':
-      gender = helsinkiGenderData as GenderDataType[];
       city = "Helsinki";
       break;
     case 'berlin-de':
-      gender = berlinGenderData as GenderDataType[];
       city = "Berlin";
       break;
     default:
-      gender = mumbaiGenderData as GenderDataType[];
       city = "Mumbai"
   }
+  const data = _.filter(cityData, (o: CityDataType) => o.city === selectedCity).length > 0 ? _.filter(cityData, (o: CityDataType) => o.city === selectedCity)[0] : null;
 
-  const maleCount = _.filter(gender, (o: GenderDataType) => o.Gender === 'male' || o.Gender === 'transgender male').length
-  const femaleCount = _.filter(gender, (o: GenderDataType) => o.Gender === 'female' || o.Gender === 'transgender female').length
   const url = selectedCity ? `https://gendered-toponyms.mustafasaifee.com/?city=${selectedCity}` : 'https://gendered-toponyms.mustafasaifee.com';
-  const quote = selectedCity ?
-    selectedCity === 'berlin-de' ?
-      `Out of  ${maleCount + femaleCount} epynomous streets in #${city}, ${maleCount} are named after males (cis), ${femaleCount - 1} are named after females(cis) and 1 is named after transgender females. Gendered Toponyms by @mustafasaifee42.` :
-      `Out of  ${maleCount + femaleCount} epynomous streets in #${city}, ${maleCount} are named after males and ${femaleCount} are named after females. Gendered Toponyms by @mustafasaifee42.` :
+  const quote = data ?
+    city === 'Berlin' ?
+      `Out of  ${data.maleStreets + data.femaleStreets + data.unknown} epynomous streets in #${city}, ${data.maleStreets} are named after males (cis), ${data.femaleStreets - 1} are named after females(cis) and 1 is named after transgender females via Gendered Toponyms by @mustafasaifee42.` :
+      city === 'Mumbai' || city === 'Delhi' ?
+        `Out of  ${data.maleStreets + data.femaleStreets + data.unknown} epynomous streets in #${city}, ${data.maleStreets} are named after males, ${data.femaleStreets} are named after females and ${data.unknown} street name genders can't be determined via Gendered Toponyms by @mustafasaifee42.` :
+        `Out of  ${data.maleStreets + data.femaleStreets + data.unknown} epynomous streets in #${city}, ${data.maleStreets} are named after males are ${data.femaleStreets} are named after females via Gendered Toponyms by @mustafasaifee42.` :
     'Gendered Toponyms: Mapping gender imbalance in city street names by @mustafasaifee42.';
   return (
     <TwitterShareButton url={url} title={quote}>
