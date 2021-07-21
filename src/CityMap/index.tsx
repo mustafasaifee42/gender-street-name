@@ -285,7 +285,7 @@ const CityMap = (props: Props) => {
                   <H3>
                     {_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').length} <PercentValue>(
                       {
-                        (_.filter(gender, (o: GenderDataType) => o.Gender !== 'unknown').length * 100 / gender.length).toFixed(1)
+                        (_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').length * 100 / gender.length).toFixed(1)
                       }%)</PercentValue>
                   </H3>
                 </div> : null
@@ -298,9 +298,9 @@ const CityMap = (props: Props) => {
                 </InfoIconEl>
               </HeadingDiv>
               <H3>
-                {_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female').length} <PercentValue>(
+                {_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female' && o.Gender !== 'unknown').length} <PercentValue>(
                   {
-                    (_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female').length * 100 / gender.length).toFixed(1)
+                    (_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female' && o.Gender !== 'unknown').length * 100 / gender.length).toFixed(1)
                   }%)</PercentValue>
               </H3>
             </div>
@@ -322,7 +322,7 @@ const CityMap = (props: Props) => {
               darkMode={darkMode}
             />
           }
-          <DataIcon bottomPosition={queryParameter !== "helsinki-fi" ? 150 : 100} darkMode={darkMode} onClick={() => { setShowData(true) }}>
+          <DataIcon bottomPosition={queryParameter === "berlin-de" ? 150 : 100} darkMode={darkMode} onClick={() => { setShowData(true) }}>
             <ListIcon size={24} fill={darkMode ? '#999999' : '#AAAAAA'} />
           </DataIcon>
           <InfoBox darkMode={darkMode}>
@@ -331,12 +331,7 @@ const CityMap = (props: Props) => {
                 <>
                   Charlotte-Von-Mahlsdorf-Ring is named after transgender female which is counted as female
                   <br />
-                </> :
-                queryParameter !== "berlin-de" && queryParameter !== "helsinki-fi" ?
-                  <>
-                    Gender of <span className="bold">{_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').length}</span> epynomous streets can't be determined.
-                    <br />
-                  </> : null
+                </> : null
             }
             Scroll {'&'} drag to pan {'&'} zoom and hover to see details
           </InfoBox>
@@ -408,7 +403,7 @@ const CityMap = (props: Props) => {
                   }
                   <NameList>
                     {
-                      _.filter(gender, (o: GenderDataType) => o.Gender === 'female' || o.Gender === 'transgender female').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                      _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender === 'female' || o.Gender === 'transgender female'), 'Highway_Name').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
                     }
                   </NameList>
                   <HR />
@@ -430,7 +425,7 @@ const CityMap = (props: Props) => {
                 maleStreetExpanded ? <>
                   <NameList>
                     {
-                      _.filter(gender, (o: GenderDataType) => o.Gender === 'male' || o.Gender === 'transgender male').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                      _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender === 'male' || o.Gender === 'transgender male'), 'Highway_Name').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
                     }
                   </NameList>
                   <HR />
@@ -452,7 +447,7 @@ const CityMap = (props: Props) => {
                 unknownStreetExpanded ? <>
                   <NameList>
                     {
-                      _.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                      _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown'), 'Highway_Name').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
                     }
                   </NameList>
                   <HR />
@@ -468,13 +463,16 @@ const CityMap = (props: Props) => {
                       <ExpandIcon size={24} fill={'#999999'} />
                     </AccordionIcon>
                 }
-                <H3Body className="bold">Ungendered Street Names ({_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female').length})</H3Body>
+                <H3Body className="bold">Ungendered Street Names ({_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female' && o.Gender !== 'unknown').length})</H3Body>
               </TitleDiv>
               {
                 ungenderedStreetExpanded ? <>
                   <NameList>
                     {
-                      _.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                      _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female' && o.Gender !== 'unknown'), 'Highway_Name').map((d, i) => {
+                        if (d.Gender !== "ungendered") { console.log(d) }
+                        return <NameTag key={i}>{d.Highway_Name}</NameTag>
+                      })
                     }
                   </NameList>
                 </> : null

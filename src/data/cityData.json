@@ -1,19 +1,19 @@
 [
     {
         "city": "mumbai-in",
-        "maleStreets": 998,
-        "femaleStreets": 145,
-        "ungendered": 1282,
+        "maleStreets": 988,
+        "femaleStreets": 138,
+        "ungendered": 1250,
         "unknown": 119,
-        "total": 2544
+        "total": 2495
     },
     {
         "city": "delhi-in",
-        "maleStreets": 437,
+        "maleStreets": 435,
         "femaleStreets": 74,
-        "ungendered": 818,
+        "ungendered": 790,
         "unknown": 8,
-        "total": 1337
+        "total": 1307
     },
     {
         "city": "helsinki-fi",
