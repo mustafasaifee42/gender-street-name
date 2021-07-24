@@ -2,6 +2,8 @@ export const COLORFORMALE = '#00C4A9';
 
 export const COLORFORFEMALE = '#E4615C';
 
+export const COLORFORMULTIPLE = '#5865F2';
+
 export const NEUTRALCOLORONWHITE = '#DDDDDD';
 
 export const NEUTRALCOLORONBLACK = '#444444';

@@ -3,8 +3,11 @@
         "city": "mumbai-in",
         "maleStreets": 988,
         "femaleStreets": 138,
+        "transFemale": 0,
+        "transMale": 0,
         "ungendered": 1250,
         "unknown": 119,
+        "multiple": 0,
         "total": 2495
     },
     {
@@ -12,7 +15,10 @@
         "maleStreets": 435,
         "femaleStreets": 74,
         "ungendered": 790,
+        "transFemale": 0,
+        "transMale": 0,
         "unknown": 8,
+        "multiple": 0,
         "total": 1307
     },
     {
@@ -20,14 +26,20 @@
         "maleStreets": 303,
         "femaleStreets": 94,
         "ungendered": 4289,
+        "transFemale": 0,
+        "transMale": 0,
+        "multiple": 0,
         "unknown": 0,
         "total": 4686
     },
     {
         "city": "berlin-de",
-        "maleStreets": 3161,
+        "maleStreets": 3165,
         "femaleStreets": 509,
-        "ungendered": 7773,
+        "ungendered": 7768,
+        "transFemale": 0,
+        "transMale": 0,
+        "multiple": 1,
         "unknown": 0,
         "total": 11443
     }

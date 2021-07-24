@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --male-color: #00C4A9;
     --female-color: #E4615C;
+    --multiple-color: #5865F2;
     --neutral-color-on-white: #CCCCCC;
     --neutral-color-on-black: #555555;
     --white: #ffffff;

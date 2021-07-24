@@ -11,7 +11,8 @@ interface Props {
 
 const ShareEl = (props: Props) => {
   const { darkMode, selectedCity } = props;
-  let city = 'Mumbai';
+  const cityList = ['delhi-in', 'mumbai-in', 'helsinki-fi', 'berlin-de']
+  let city = undefined;
   switch (selectedCity) {
     case 'delhi-in':
       city = "Delhi";
@@ -26,17 +27,16 @@ const ShareEl = (props: Props) => {
       city = "Berlin";
       break;
     default:
-      city = "Mumbai"
+      city = undefined
   }
   const data = _.filter(cityData, (o: CityDataType) => o.city === selectedCity).length > 0 ? _.filter(cityData, (o: CityDataType) => o.city === selectedCity)[0] : null;
 
-  const url = selectedCity ? `https://gendered-toponyms.mustafasaifee.com/?city=${selectedCity}` : 'https://gendered-toponyms.mustafasaifee.com';
+  const url = selectedCity ? cityList.indexOf(selectedCity) > -1 ? `https://gendered-toponyms.mustafasaifee.com/?city=${selectedCity}` : 'https://gendered-toponyms.mustafasaifee.com' : 'https://gendered-toponyms.mustafasaifee.com';
   const quote = data ?
     city === 'Berlin' ?
-      `Out of  ${data.maleStreets + data.femaleStreets + data.unknown} epynomous streets in #${city}, ${data.maleStreets} are named after males (cis), ${data.femaleStreets - 1} are named after females(cis) and 1 is named after transgender females via Gendered Toponyms by @mustafasaifee42.` :
-      city === 'Mumbai' || city === 'Delhi' ?
-        `Out of  ${data.maleStreets + data.femaleStreets + data.unknown} epynomous streets in #${city}, ${data.maleStreets} are named after males, ${data.femaleStreets} are named after females and ${data.unknown} street name genders can't be determined via Gendered Toponyms by @mustafasaifee42.` :
-        `Out of  ${data.maleStreets + data.femaleStreets + data.unknown} epynomous streets in #${city}, ${data.maleStreets} are named after males are ${data.femaleStreets} are named after females via Gendered Toponyms by @mustafasaifee42.` :
+      `Out of ${data.maleStreets + data.femaleStreets + data.unknown + data.multiple} epynomous streets in #${city}, ${data.maleStreets} are named after males (cis), ${data.femaleStreets - 1} are named after females(cis), 1 is named after transgender females amd 1 is named after 2 or more people with different genders via Gendered Toponyms by @mustafasaifee42.` :
+      `Out of ${data.maleStreets + data.femaleStreets + data.unknown + data.multiple} epynomous streets in #${city}, ${data.maleStreets} are named after males, ${data.femaleStreets} are named after females${data.multiple > 0 ? `, ${data.multiple} ${data.multiple > 1 ? 'are' : 'is'} named after 2 or more people with different genders` : ''}${data.unknown > 0 ? `, and for ${data.unknown} ${data.unknown > 1 ? 'streets' : 'street'} genders can't be determined` : ''} via Gendered Toponyms by @mustafasaifee42.`
+    :
     'Gendered Toponyms: Mapping gender imbalance in city street names by @mustafasaifee42.';
   return (
     <TwitterShareButton url={url} title={quote}>

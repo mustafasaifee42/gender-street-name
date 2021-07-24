@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import _ from 'lodash';
-import { COLORFORFEMALE, COLORFORMALE, NEUTRALCOLORONWHITE, NEUTRALCOLORONBLACK, TOPPADDING } from '../Constants';
+import { COLORFORFEMALE, COLORFORMALE, COLORFORMULTIPLE, NEUTRALCOLORONWHITE, NEUTRALCOLORONBLACK, TOPPADDING } from '../Constants';
 import { AboutIconWOHover, ListIcon, ExpandIcon, CollapseIcon } from '../Components/Icons';
 import Loader from "react-loader-spinner";
 import citySettings from '../data/citySettings.json';
@@ -10,6 +10,7 @@ import { MapVis, SplitMap } from '../MapVis';
 import ReactTooltip from "react-tooltip";
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import CityData from '../data/cityData.json';
 
 interface Props {
   darkMode: boolean;
@@ -186,9 +187,12 @@ const CityMap = (props: Props) => {
   const [femaleStreetExpanded, setFemaleStreetExpanded] = useState(true);
   const [maleStreetExpanded, setMaleStreetExpanded] = useState(false);
   const [unknownStreetExpanded, setUnknownStreetExpanded] = useState(false);
+  const [multipleStreetExpanded, setMultipleStreetExpanded] = useState(false);
   const [ungenderedStreetExpanded, setUngenderedStreetExpanded] = useState(false);
   const [data, setData] = useState<RoadDataType[] | undefined>(undefined);
   const [gender, setGender] = useState<GenderDataType[] | undefined>(undefined);
+  const cityList = ['delhi-in', 'mumbai-in', 'helsinki-fi', 'berlin-de']
+  const CitySpecificData = _.filter(CityData, d => queryParameter ? cityList.indexOf(queryParameter) > -1 ? d.city === queryParameter : d.city === 'mumbai-in' : d.city === 'mumbai-in')[0]
   const [selectedCitySettings, setSelectedCitySettings] = useState<CitySettingsDataType>(_.filter(citySettings, (o: CitySettingsDataType) => o.city === "Mumbai, IN")[0] as CitySettingsDataType);
   useEffect(() => {
     let directory = 'Mumbai';
@@ -274,7 +278,7 @@ const CityMap = (props: Props) => {
               </H3>
             </div>
             {
-              queryParameter !== "berlin-de" && queryParameter !== "helsinki-fi" ?
+              CitySpecificData.unknown > 0 ?
                 <div style={darkMode ? { color: NEUTRALCOLORONBLACK } : { color: NEUTRALCOLORONWHITE }}>
                   <HeadingDiv>
                     <h4>Unknown</h4>
@@ -290,6 +294,23 @@ const CityMap = (props: Props) => {
                   </H3>
                 </div> : null
             }
+            {
+              CitySpecificData.multiple > 0 ?
+                <div style={{ color: COLORFORMULTIPLE }}>
+                  <HeadingDiv>
+                    <h4>Mutiple</h4>
+                    <InfoIconEl data-tip data-for='mutipleTooltip'>
+                      <AboutIconWOHover size={16} fill={darkMode ? '#999999' : '#AAAAAA'} />
+                    </InfoIconEl>
+                  </HeadingDiv>
+                  <H3>
+                    {_.filter(gender, (o: GenderDataType) => o.Gender === 'multiple').length} <PercentValue>(
+                      {
+                        (_.filter(gender, (o: GenderDataType) => o.Gender === 'multiple').length * 100 / gender.length).toFixed(1)
+                      }%)</PercentValue>
+                  </H3>
+                </div> : null
+            }
             <div style={darkMode ? { color: NEUTRALCOLORONBLACK } : { color: NEUTRALCOLORONWHITE }}>
               <HeadingDiv>
                 <h4>Ungendered</h4>
@@ -298,9 +319,9 @@ const CityMap = (props: Props) => {
                 </InfoIconEl>
               </HeadingDiv>
               <H3>
-                {_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female' && o.Gender !== 'unknown').length} <PercentValue>(
+                {_.filter(gender, (o: GenderDataType) => o.Gender === 'ungendered').length} <PercentValue>(
                   {
-                    (_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female' && o.Gender !== 'unknown').length * 100 / gender.length).toFixed(1)
+                    (_.filter(gender, (o: GenderDataType) => o.Gender === 'ungendered').length * 100 / gender.length).toFixed(1)
                   }%)</PercentValue>
               </H3>
             </div>
@@ -352,10 +373,18 @@ const CityMap = (props: Props) => {
             </TooltipDiv>
           </ReactTooltip>
           {
-            queryParameter !== "helsinki-fi" && queryParameter !== "berlin-de" ?
+            CitySpecificData.unknown > 0 ?
               <ReactTooltip place="bottom" type={darkMode ? 'dark' : 'light'} effect="solid" id='unknownTooltip'>
                 <TooltipDiv>
                   <TooltipText>Includes the street that uses initials for first and middle name or uses just the last name or the name is unisex and cannot be determined if the name belong to a male or female.</TooltipText>
+                </TooltipDiv>
+              </ReactTooltip> : null
+          }
+          {
+            CitySpecificData.multiple > 0 ?
+              <ReactTooltip place="bottom" type={darkMode ? 'dark' : 'light'} effect="solid" id='mutipleTooltip'>
+                <TooltipDiv>
+                  <TooltipText>Includes the street that named after mutiple people of different genders.</TooltipText>
                 </TooltipDiv>
               </ReactTooltip> : null
           }
@@ -367,7 +396,7 @@ const CityMap = (props: Props) => {
 
           <Modal
             isOpen={showData}
-            onRequestClose={() => { setShowData(false); setFemaleStreetExpanded(true); setMaleStreetExpanded(false); setUngenderedStreetExpanded(false); setUnknownStreetExpanded(false) }}
+            onRequestClose={() => { setShowData(false); setFemaleStreetExpanded(true); setMaleStreetExpanded(false); setUngenderedStreetExpanded(false); setMultipleStreetExpanded(false); setUnknownStreetExpanded(false) }}
             contentLabel="Data Modal"
             ariaHideApp={false}
             className={'modal'}
@@ -431,27 +460,59 @@ const CityMap = (props: Props) => {
                   <HR />
                 </> : null
               }
-              <TitleDiv onClick={() => { setUnknownStreetExpanded(!unknownStreetExpanded) }}>
-                {
-                  unknownStreetExpanded ?
-                    <AccordionIcon >
-                      <CollapseIcon size={24} fill={'#999999'} />
-                    </AccordionIcon> :
-                    <AccordionIcon>
-                      <ExpandIcon size={24} fill={'#999999'} />
-                    </AccordionIcon>
-                }
-                <H3Body className="bold">Streets Named After People But Gender Undertermined ({_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').length})</H3Body>
-              </TitleDiv>
               {
-                unknownStreetExpanded ? <>
-                  <NameList>
+                CitySpecificData.multiple > 0 ?
+                  <>
+                    <TitleDiv onClick={() => { setMultipleStreetExpanded(!multipleStreetExpanded) }}>
+                      {
+                        multipleStreetExpanded ?
+                          <AccordionIcon >
+                            <CollapseIcon size={24} fill={'#999999'} />
+                          </AccordionIcon> :
+                          <AccordionIcon>
+                            <ExpandIcon size={24} fill={'#999999'} />
+                          </AccordionIcon>
+                      }
+                      <H3Body className="bold">Streets Named After Multiple People of Different Gender ({_.filter(gender, (o: GenderDataType) => o.Gender === 'multiple').length})</H3Body>
+                    </TitleDiv>
                     {
-                      _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown'), 'Highway_Name').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                      multipleStreetExpanded ? <>
+                        <NameList>
+                          {
+                            _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender === 'multiple'), 'Highway_Name').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                          }
+                        </NameList>
+                        <HR />
+                      </> : null
                     }
-                  </NameList>
-                  <HR />
-                </> : null
+                  </> : null
+              }
+              {
+                CitySpecificData.unknown > 0 ?
+                  <>
+                    <TitleDiv onClick={() => { setUnknownStreetExpanded(!unknownStreetExpanded) }}>
+                      {
+                        unknownStreetExpanded ?
+                          <AccordionIcon >
+                            <CollapseIcon size={24} fill={'#999999'} />
+                          </AccordionIcon> :
+                          <AccordionIcon>
+                            <ExpandIcon size={24} fill={'#999999'} />
+                          </AccordionIcon>
+                      }
+                      <H3Body className="bold">Streets Named After People But Gender Undertermined ({_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown').length})</H3Body>
+                    </TitleDiv>
+                    {
+                      unknownStreetExpanded ? <>
+                        <NameList>
+                          {
+                            _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender === 'unknown'), 'Highway_Name').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
+                          }
+                        </NameList>
+                        <HR />
+                      </> : null
+                    }
+                  </> : null
               }
               <TitleDiv onClick={() => { setUngenderedStreetExpanded(!ungenderedStreetExpanded) }}>
                 {
@@ -463,16 +524,13 @@ const CityMap = (props: Props) => {
                       <ExpandIcon size={24} fill={'#999999'} />
                     </AccordionIcon>
                 }
-                <H3Body className="bold">Ungendered Street Names ({_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female' && o.Gender !== 'unknown').length})</H3Body>
+                <H3Body className="bold">Ungendered Street Names ({_.filter(gender, (o: GenderDataType) => o.Gender === 'ungendered').length})</H3Body>
               </TitleDiv>
               {
                 ungenderedStreetExpanded ? <>
                   <NameList>
                     {
-                      _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender !== 'male' && o.Gender !== 'female' && o.Gender !== 'transgender male' && o.Gender !== 'transgender female' && o.Gender !== 'unknown'), 'Highway_Name').map((d, i) => {
-                        if (d.Gender !== "ungendered") { console.log(d) }
-                        return <NameTag key={i}>{d.Highway_Name}</NameTag>
-                      })
+                      _.sortBy(_.filter(gender, (o: GenderDataType) => o.Gender === 'ungendered'), 'Highway_Name').map((d, i) => <NameTag key={i}>{d.Highway_Name}</NameTag>)
                     }
                   </NameList>
                 </> : null

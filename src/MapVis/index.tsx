@@ -2,7 +2,7 @@ import { geoMercator } from 'd3-geo';
 import { select } from 'd3-selection';
 import { useState, useEffect, useRef } from 'react';
 import { RoadDataType, GeometryDataType } from '../DataTypes';
-import { COLORFORFEMALE, COLORFORMALE, NEUTRALCOLORONWHITE, NEUTRALCOLORONBLACK, TOPPADDING } from '../Constants';
+import { COLORFORFEMALE, COLORFORMALE, NEUTRALCOLORONWHITE, NEUTRALCOLORONBLACK, COLORFORMULTIPLE, TOPPADDING } from '../Constants';
 import styled from 'styled-components';
 import _ from 'lodash';
 import { zoom } from 'd3-zoom';
@@ -110,7 +110,8 @@ export const MapVis = (props: Props) => {
                   stroke={
                     d.tags.gender === "male" || d.tags.gender === "transgender male" ? COLORFORMALE :
                       d.tags.gender === "female" || d.tags.gender === "transgender female" ? COLORFORFEMALE :
-                        darkMode ? NEUTRALCOLORONBLACK : NEUTRALCOLORONWHITE
+                        d.tags.gender === 'multiple' ? COLORFORMULTIPLE :
+                          darkMode ? NEUTRALCOLORONBLACK : NEUTRALCOLORONWHITE
                   }
                   strokeWidth={strokeWidth}
                   fill="none"
@@ -139,7 +140,8 @@ export const MapVis = (props: Props) => {
             fill={
               selectedRoadGender === "male" || selectedRoadGender === "transgender male" ? COLORFORMALE :
                 selectedRoadGender === "female" || selectedRoadGender === "transgender female" ? COLORFORFEMALE :
-                  darkMode ? 'var(--white)' : 'var(--black)'
+                  selectedRoadGender === 'multiple' ? COLORFORMULTIPLE :
+                    darkMode ? 'var(--white)' : 'var(--black)'
             }
             darkMode={darkMode}
           >{roadName}</TooltipEl>
@@ -195,7 +197,6 @@ export const SplitMap = (props: Props) => {
     mapFemaleSvgSelect.call(zoomBehaviour as any);
     mapUngenderedSvgSelect.call(zoomBehaviour as any);
   }, [height, width]);
-
   const strokeWidth = ((window.innerWidth / 3) - 10) / width < (window.innerHeight - TOPPADDING) / height ? width / ((window.innerWidth / 3) - 10) : height / (window.innerHeight - TOPPADDING);
   return (
     <>
@@ -285,7 +286,7 @@ export const SplitMap = (props: Props) => {
           <g ref={mapUngenderedG}>
             {
 
-              _.filter(data, (o: RoadDataType) => o.tags.gender !== 'female' && o.tags.gender !== 'male' && o.tags.gender !== 'transgender female' && o.tags.gender !== 'transgender male').map((d: RoadDataType, i: number) => {
+              _.filter(data, (o: RoadDataType) => o.tags.gender === 'ungendered' || o.tags.gender === 'unknown' || o.tags.gender === 'multiple').map((d: RoadDataType, i: number) => {
                 let masterPath = ""
                 d.geometry.forEach((geo: GeometryDataType[], j: number) => {
                   let path = " M"
@@ -302,8 +303,10 @@ export const SplitMap = (props: Props) => {
                   key={i}
                   d={masterPath}
                   stroke={
-                    darkMode ? NEUTRALCOLORONBLACK :
-                      NEUTRALCOLORONWHITE
+                    d.tags.gender === 'multiple' ?
+                      COLORFORMULTIPLE :
+                      darkMode ? NEUTRALCOLORONBLACK :
+                        NEUTRALCOLORONWHITE
                   }
                   className={'streetPath'}
                   strokeWidth={strokeWidth}
@@ -333,7 +336,8 @@ export const SplitMap = (props: Props) => {
             fill={
               selectedRoadGender === "male" || selectedRoadGender === "transgender male" ? COLORFORMALE :
                 selectedRoadGender === "female" || selectedRoadGender === "transgender female" ? COLORFORFEMALE :
-                  darkMode ? 'var(--white)' : 'var(--black)'
+                  selectedRoadGender === 'multiple' ? COLORFORMULTIPLE :
+                    darkMode ? 'var(--white)' : 'var(--black)'
             }
             darkMode={darkMode}
           >{roadName}</TooltipEl>
